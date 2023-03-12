@@ -1,12 +1,4 @@
 return {
-  -- Dap plugin
-  'mfussenegger/nvim-dap',
-  { 
-    'rcarriga/nvim-dap-ui', 
-    dependencies = {
-      'mfussenegger/nvim-dap'
-    } 
-  },
   {
     'mfussenegger/nvim-dap-python',
     dependencies = {
@@ -27,12 +19,12 @@ return {
   },
 
   --Async Jobs
-  { 
-    "skywind3000/asyncrun.vim", 
-    opt = true, 
-    cmd = { 
-      "AsyncRun" 
-    } 
+  {
+    "skywind3000/asyncrun.vim",
+    opt = true,
+    cmd = {
+      "AsyncRun"
+    }
   },
 
   { -- Autocompletion
@@ -71,4 +63,5 @@ return {
 
   -- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = vim.fn.executable 'make' == 1 },
+  'ThePrimeagen/vim-be-good',
 }

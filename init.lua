@@ -173,7 +173,7 @@ vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { des
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>lsd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader><leader>d', function()
   require('My.doter'):find()
 end, {desc = 'List [D]otfile'})
@@ -247,6 +247,55 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+
+vim.keymap.set('n', '<Left>', function ()
+ print('nope') 
+end)
+vim.keymap.set('n', '<Right>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('n', '<Up>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('n', '<Down>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('i', '<Left>', function ()
+ print('nope') 
+end)
+vim.keymap.set('i', '<Right>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('i', '<Up>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('i', '<Down>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('v', '<Left>', function ()
+ print('nope') 
+end)
+vim.keymap.set('v', '<Right>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('v', '<Up>',  function ()
+ print('nope') 
+end)
+
+vim.keymap.set('v', '<Down>',  function ()
+ print('nope') 
+end)
+
+
+
+
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -303,7 +352,15 @@ require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'gopls' }
+local servers = { 
+  'clangd',
+  'rust_analyzer',
+  'pyright',
+  'tsserver',
+  'sumneko_lua',
+  'gopls',
+  'jdtls'
+}
 
 -- Ensure the servers above are installed
 require('mason-lspconfig').setup {
@@ -351,6 +408,8 @@ require('lspconfig').sumneko_lua.setup {
     },
   },
 }
+
+require('lspconfig').jdtls.setup =require ('My.jtdls_setup') 
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -414,5 +473,7 @@ if vim.g.neovide ~= nil then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
 end
+
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
