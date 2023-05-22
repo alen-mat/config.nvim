@@ -8,41 +8,41 @@ local jdtls_launcher_path = vim.fn.glob(
 local config = {
   -- The command that starts the language server
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-    cmd =  {
+  cmd = {
 
-      -- 💀
-      'java', -- or '/path/to/java17_or_newer/bin/java'
-      -- depends on if `java` is in your $PATH env variable and if it points to the right version.
+    -- 💀
+    'java',   -- or '/path/to/java17_or_newer/bin/java'
+    -- depends on if `java` is in your $PATH env variable and if it points to the right version.
 
-      '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-      '-Dosgi.bundles.defaultStartLevel=4',
-      '-Declipse.product=org.eclipse.jdt.ls.core.product',
-      '-Dlog.protocol=true',
-      '-Dlog.level=ALL',
-      '-Xms1g',
-      '--add-modules=ALL-SYSTEM',
-      '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-      '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+    '-Dosgi.bundles.defaultStartLevel=4',
+    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+    '-Dlog.protocol=true',
+    '-Dlog.level=ALL',
+    '-Xms1g',
+    '--add-modules=ALL-SYSTEM',
+    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 
-      -- 💀
-      '-jar',
-      jdtls_launcher_path,
-      -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
-      -- Must point to the                                                     Change this to
-      -- eclipse.jdt.ls installation                                           the actual version
-
-
-      -- 💀
-      '-configuration', home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
-      -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
-      -- Must point to the                      Change to one of `linux`, `win` or `mac`
-      -- eclipse.jdt.ls installation            Depending on your system.
+    -- 💀
+    '-jar',
+    jdtls_launcher_path,
+    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
+    -- Must point to the                                                     Change this to
+    -- eclipse.jdt.ls installation                                           the actual version
 
 
-      -- 💀
-      -- See `data directory configuration` section in the README
-      '-data', workspace_dir,
-    },
+    -- 💀
+    '-configuration', home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
+    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
+    -- Must point to the                      Change to one of `linux`, `win` or `mac`
+    -- eclipse.jdt.ls installation            Depending on your system.
+
+
+    -- 💀
+    -- See `data directory configuration` section in the README
+    '-data', workspace_dir,
+  },
 
   -- 💀
   -- This is the default if not provided, you can remove it. Or adjust as needed.
@@ -56,51 +56,51 @@ local config = {
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
-        ['java.format.settings.url'] = home .. "/.config/nvim/language-servers/java-google-formatter.xml",
-        ['java.format.settings.profile'] = "GoogleStyle",
-        java = {
-          signatureHelp = { enabled = true },
-          contentProvider = { preferred = 'fernflower' },
-          completion = {
-            favoriteStaticMembers = {
-              "org.hamcrest.MatcherAssert.assertThat",
-              "org.hamcrest.Matchers.*",
-              "org.hamcrest.CoreMatchers.*",
-              "org.junit.jupiter.api.Assertions.*",
-              "java.util.Objects.requireNonNull",
-              "java.util.Objects.requireNonNullElse",
-              "org.mockito.Mockito.*"
-            }
+    ['java.format.settings.url'] = home .. "/.config/nvim/language-servers/java-google-formatter.xml",
+    ['java.format.settings.profile'] = "GoogleStyle",
+    java = {
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = 'fernflower' },
+      completion = {
+        favoriteStaticMembers = {
+          "org.hamcrest.MatcherAssert.assertThat",
+          "org.hamcrest.Matchers.*",
+          "org.hamcrest.CoreMatchers.*",
+          "org.junit.jupiter.api.Assertions.*",
+          "java.util.Objects.requireNonNull",
+          "java.util.Objects.requireNonNullElse",
+          "org.mockito.Mockito.*"
+        }
+      },
+      sources = {
+        organizeImports = {
+          starThreshold = 9999,
+          staticStarThreshold = 9999,
+        },
+      },
+      codeGeneration = {
+        toString = {
+          template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
+        }
+      },
+      flags = {
+        allow_incremental_sync = true,
+      },
+      configuration = {
+        runtimes = {
+          {
+            name = "JavaSE-11",
+            path = '/usr/lib/jvm/java-11-openjdk',
           },
-          sources = {
-            organizeImports = {
-              starThreshold = 9999;
-              staticStarThreshold = 9999;
-            },
-          },
-          codeGeneration = {
-            toString = {
-              template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
-            }
-          },
-          flags = {
-            allow_incremental_sync = true,
-          },
-          configuration = {
-            runtimes = {
-              {
-                name = "JavaSE-11",
-                path = '/usr/lib/jvm/java-11-openjdk',
-              },
-              {
-                name = "JavaSE-19",
-                path = "/usr/lib/jvm/java-19-openjdk",
+          {
+            name = "JavaSE-19",
+            path = "/usr/lib/jvm/java-19-openjdk",
 
-              },
-            }
-          };
-        };
+          },
+        }
+      },
     },
+  },
 
 
   -- Language server `initializationOptions`
@@ -113,9 +113,9 @@ local config = {
   --
   init_options = {
     bundles = {},
-    extendedClientCapabilities = extendedClientCapabilities;
+    extendedClientCapabilities = extendedClientCapabilities,
   },
 }
 
 
-return config 
+return config

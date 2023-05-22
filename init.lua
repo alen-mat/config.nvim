@@ -45,7 +45,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
-vim.notify = require("notify")
 -- Set highlight on search
 vim.o.hlsearch = false
 
@@ -78,7 +77,6 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
 
 vim.opt.scrolloff = 8
 
@@ -95,17 +93,17 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('v','J',":m '>+1<CR>gv=gv'")
-vim.keymap.set('v','K',":m '>-2<CR>gv=gv'")
-vim.keymap.set('n','<C-d>','<C-d>zz')
-vim.keymap.set('n','<C-u>','<C-u>zz')
-vim.keymap.set('n','n','nzzzv')
-vim.keymap.set('n','N','Nzzzv')
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'")
+vim.keymap.set('v', 'K', ":m '>-2<CR>gv=gv'")
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
 
-vim.keymap.set({'n','v'},"<leader>y", [["+y]])
-vim.keymap.set('n',"<leader>Y", [["+Y]])
-vim.keymap.set({'n','v'},"<leader>p", [["+p]])
-vim.keymap.set('n',"<leader>P", [["+P]])
+vim.keymap.set({ 'n', 'v' }, "<leader>y", [["+y]])
+vim.keymap.set('n', "<leader>Y", [["+Y]])
+vim.keymap.set({ 'n', 'v' }, "<leader>p", [["+p]])
+vim.keymap.set('n', "<leader>P", [["+P]])
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -130,17 +128,7 @@ require('indent_blankline').setup {
   show_trailing_blankline_indent = false,
 }
 
--- Gitsigns
--- See `:help gitsigns.txt`
-require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
-}
+
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -176,70 +164,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>lsd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader><leader>d', function()
   require('My.doter'):find()
-end, {desc = 'List [D]otfile'})
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help' },
-
-  highlight = { enable = true },
-  indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<c-space>',
-      node_incremental = '<c-space>',
-      scope_incremental = '<c-s>',
-      node_decremental = '<c-backspace>',
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ['<leader>a'] = '@parameter.inner',
-      },
-      swap_previous = {
-        ['<leader>A'] = '@parameter.inner',
-      },
-    },
-  },
-}
+end, { desc = 'List [D]otfile' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -248,49 +173,49 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 
-vim.keymap.set('n', '<Left>', function ()
- print('nope') 
+vim.keymap.set('n', '<Left>', function()
+  print('nope')
 end)
-vim.keymap.set('n', '<Right>',  function ()
- print('nope') 
-end)
-
-vim.keymap.set('n', '<Up>',  function ()
- print('nope') 
+vim.keymap.set('n', '<Right>', function()
+  print('nope')
 end)
 
-vim.keymap.set('n', '<Down>',  function ()
- print('nope') 
+vim.keymap.set('n', '<Up>', function()
+  print('nope')
 end)
 
-vim.keymap.set('i', '<Left>', function ()
- print('nope') 
-end)
-vim.keymap.set('i', '<Right>',  function ()
- print('nope') 
+vim.keymap.set('n', '<Down>', function()
+  print('nope')
 end)
 
-vim.keymap.set('i', '<Up>',  function ()
- print('nope') 
+vim.keymap.set('i', '<Left>', function()
+  print('nope')
+end)
+vim.keymap.set('i', '<Right>', function()
+  print('nope')
 end)
 
-vim.keymap.set('i', '<Down>',  function ()
- print('nope') 
+vim.keymap.set('i', '<Up>', function()
+  print('nope')
 end)
 
-vim.keymap.set('v', '<Left>', function ()
- print('nope') 
-end)
-vim.keymap.set('v', '<Right>',  function ()
- print('nope') 
+vim.keymap.set('i', '<Down>', function()
+  print('nope')
 end)
 
-vim.keymap.set('v', '<Up>',  function ()
- print('nope') 
+vim.keymap.set('v', '<Left>', function()
+  print('nope')
+end)
+vim.keymap.set('v', '<Right>', function()
+  print('nope')
 end)
 
-vim.keymap.set('v', '<Down>',  function ()
- print('nope') 
+vim.keymap.set('v', '<Up>', function()
+  print('nope')
+end)
+
+vim.keymap.set('v', '<Down>', function()
+  print('nope')
 end)
 
 
@@ -352,13 +277,14 @@ require('mason').setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 
+local servers = {
   'clangd',
   'rust_analyzer',
   'pyright',
   'tsserver',
-  'sumneko_lua',
+  'lua_ls',
   'gopls',
+  -- 'java_language_server',
   'jdtls'
 }
 
@@ -388,7 +314,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
-require('lspconfig').sumneko_lua.setup {
+require('lspconfig').lua_ls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
@@ -409,62 +335,22 @@ require('lspconfig').sumneko_lua.setup {
   },
 }
 
-require('lspconfig').jdtls.setup =require ('My.jtdls_setup') 
+local jtdls_setup_overrides = require ('My.jtdls_setup')
+jtdls_setup_overrides.on_attach = on_attach
+jtdls_setup_overrides.capabilities = capabilities
+require('lspconfig').jdtls.setup =jtdls_setup_overrides
+--[[ require('lspconfig').java_language_server.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { '/home/alen/.local/share/nvim/mason/packages/java-language-server/dist/lang_server_linux.sh' },
+  filetypes = { 'java','jsp' },
+  -- root_dir = require('lspconfig').util.root_pattern('build.gradle', 'pom.xml', '.git'),
+  settings = {
+  }
+} ]]
 
 -- nvim-cmp setup
-local cmp = require 'cmp'
-local luasnip = require 'luasnip'
 
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  },
-}
-
-require('dap-python').setup('~/workspace/python/.py_env/bin/python')
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close()
-end
 
 if vim.g.neovide ~= nil then
   vim.opt.guifont = { "Source Code Pro", ":h9" }
@@ -474,6 +360,6 @@ if vim.g.neovide ~= nil then
   vim.g.neovide_refresh_rate_idle = 5
 end
 
-
+--vim.cmd [[colorscheme tokyonight-night]]
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
