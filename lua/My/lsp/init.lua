@@ -70,6 +70,7 @@ local servers = {
 local config_override= {
 	lua_ls='My.lsp.lua_ls',
 	jdtls='My.lsp.jtdls',
+	rust_analyzer='My.lsp.rust_analyzer',
 }
 
 
