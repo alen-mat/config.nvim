@@ -8,7 +8,15 @@ return {
       'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
-      'j-hui/fidget.nvim',
+      {
+        'j-hui/fidget.nvim',
+        tag = "legacy",
+        opts = {
+          text = {
+            spinner = 'dots_pulse',
+          },
+        },
+      },
     },
     config = function()
       require('My.lsp')
@@ -59,12 +67,24 @@ return {
     priority = 1000,
     opts = {},
     config = function()
-      vim.cmd[[colorscheme tokyonight-night]]
+      vim.cmd [[colorscheme tokyonight-night]]
     end
   },
-  'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
-  'numToStr/Comment.nvim',               -- "gc" to comment visual regions/lines
-  'tpope/vim-sleuth',                    -- Detect tabstop and shiftwidth automatically
+  {
+    'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
+    main = "ibl",
+    opts = {
+      indent = {
+        char = "|"
+      },
+      whitespace = {
+        remove_blankline_trail = false,
+      },
+      scope = { enabled = false },
+    },
+  },
+  'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
+  'tpope/vim-sleuth',      -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim',            branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },

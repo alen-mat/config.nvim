@@ -61,7 +61,7 @@ local servers = {
 	'rust_analyzer',
 	'pyright',
 	'tsserver',
-	'lua_ls', 
+	'lua_ls',
 	'gopls',
 	-- 'java_language_server',
 	'jdtls'

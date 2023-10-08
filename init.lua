@@ -21,26 +21,6 @@ vim.g.maplocalleader = ' '
 
 require('lazy').setup('plugins')
 
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-  print '=================================='
-  print '    Plugins are being installed'
-  print '    Wait until Packer completes,'
-  print '       then restart nvim'
-  print '=================================='
-  return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> ',
-  group = packer_group,
-  pattern = vim.fn.expand '$MYVIMRC',
-})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -83,8 +63,6 @@ vim.opt.scrolloff = 8
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
-
-
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -120,15 +98,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Enable Comment.nvim
 require('Comment').setup()
-
--- Enable `lukas-reineke/indent-blankline.nvim`
--- See `:help indent_blankline.txt`
-require('indent_blankline').setup {
-  char = '┊',
-  show_trailing_blankline_indent = false,
-}
-
-
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -173,73 +142,35 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
-
-vim.keymap.set('n', '<Left>', function()
-  print('nope')
-end)
-vim.keymap.set('n', '<Right>', function()
-  print('nope')
-end)
-
-vim.keymap.set('n', '<Up>', function()
-  print('nope')
-end)
-
-vim.keymap.set('n', '<Down>', function()
-  print('nope')
-end)
-
-vim.keymap.set('i', '<Left>', function()
-  print('nope')
-end)
-vim.keymap.set('i', '<Right>', function()
-  print('nope')
-end)
-
-vim.keymap.set('i', '<Up>', function()
-  print('nope')
-end)
-
-vim.keymap.set('i', '<Down>', function()
-  print('nope')
-end)
-
-vim.keymap.set('v', '<Left>', function()
-  print('nope')
-end)
-vim.keymap.set('v', '<Right>', function()
-  print('nope')
-end)
-
-vim.keymap.set('v', '<Up>', function()
-  print('nope')
-end)
-
-vim.keymap.set('v', '<Down>', function()
-  print('nope')
-end)
-
---[[ require('lspconfig').java_language_server.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = { '/home/alen/.local/share/nvim/mason/packages/java-language-server/dist/lang_server_linux.sh' },
-  filetypes = { 'java','jsp' },
-  -- root_dir = require('lspconfig').util.root_pattern('build.gradle', 'pom.xml', '.git'),
-  settings = {
-  }
-} ]]
-
+-- disble keys
+local keys = {
+  ["<Left>"] = {"i","v","n"} ,
+  ["<Right>"] = {},
+  ["<Up>"] = {},
+  ["<Down>"] = {},
+}
+for _key, _modes in pairs(keys) do
+    vim.keymap.set(_modes, _key, function()
+      print('nope')
+  end)
+end
+-- 
 -- nvim-cmp setup
 
 
 if vim.g.neovide ~= nil then
+  vim.g.neovide_refresh_rate_idle = 5
   vim.opt.guifont = { "Source Code Pro", ":h9" }
-  vim.g.neovide_transparency = 0.9
-  vim.g.transparency = 0.8
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
+  local alpha = function()
+    return string.format("%x", math.floor((255 * vim.g.transparency) or 0.8))
+  end
+  vim.g.neovide_transparency = 0.8
+  vim.g.transparency = 0.8
+  vim.g.neovide_background_color = "#0f1117" .. alpha()
+  vim.g.neovide_floating_blur_amount_x = 2.0
+  vim.g.neovide_floating_blur_amount_y = 2.0
 end
 
---vim.cmd [[colorscheme tokyonight-night]]
--- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
