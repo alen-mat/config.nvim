@@ -1,28 +1,4 @@
 return {
-  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      {
-        'j-hui/fidget.nvim',
-        tag = "legacy",
-        opts = {
-          text = {
-            spinner = 'dots_pulse',
-          },
-        },
-      },
-    },
-    config = function()
-      require('My.lsp')
-    end
-  },
-
   --Async Jobs
   {
     "skywind3000/asyncrun.vim",
@@ -40,8 +16,7 @@ return {
   },
   -- Additional text objects via treesitter
   'nvim-treesitter/nvim-treesitter-textobjects',
-
-
+  --
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -61,6 +36,7 @@ return {
       }
     end
   },
+
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -82,14 +58,33 @@ return {
       },
       scope = { enabled = false },
     },
+
   },
   'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
   'tpope/vim-sleuth',      -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim',            branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   -- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make',   cond = vim.fn.executable 'make' == 1 },
+
   'ThePrimeagen/vim-be-good',
+
+  {
+    "Dhanus3133/LeetBuddy.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("leetbuddy").setup({})
+    end,
+    keys = {
+      { "<leader>lq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
+      { "<leader>ll", "<cmd>LBQuestion<cr>",  desc = "View Question" },
+      { "<leader>lr", "<cmd>LBReset<cr>",     desc = "Reset Code" },
+      { "<leader>lt", "<cmd>LBTest<cr>",      desc = "Run Code" },
+      { "<leader>ls", "<cmd>LBSubmit<cr>",    desc = "Submit Code" },
+    },
+  }
 }
