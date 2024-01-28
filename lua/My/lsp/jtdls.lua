@@ -30,7 +30,7 @@ local config = {
 
   root_dir = function(fname)
     return require("lspconfig").util.root_pattern("pom.xml", "gradle.build", ".git", "lsp.This")(fname) or
-    vim.fn.getcwd()
+        vim.fn.getcwd()
   end,
 
   filetypes = { "java" },
@@ -125,31 +125,34 @@ local config = {
   },
 }
 
-local jdtls = require ("jdtls")
+local jdtls = require("jdtls")
 config.init_options.extendedClientCapabilities = jdtls.extendedClientCapabilities
 config.init_options.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
-local function on_attach(bufnr)
-  local nnoremap = function(keys, func, desc)
+local function on_attach(_, bufnr)
+  local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
     end
-
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc, norema = true })
+    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nnoremap('<A-o>', jdtls.organize_imports(), 'Organize Imports')
-  nnoremap('crv ', jdtls.extract_variable(), 'Extract Variable')
-  vnoremap('crv ', jdtls.extract_variable(true), 'Extract Variable')
-  nnoremap('crc ', jdtls.extract_constant(), 'Extract constants')
-  vnoremap('crc ', jdtls.extract_constant(true), 'Extract constants')
-  vnoremap('crm ', jdtls.extract_method(true), 'Extract method')
+  nmap("<F5>", ":!zellij run -f -- mvn clean install<CR>", 'Maven build')
+
+  nmap('<A-o>', jdtls.organize_imports, 'Organize Imports')
 
 
-  nnoremap('<leader>df', jdtls.test_class(), 'Test class')
-  nnoremap('<leader>dn', jdtls.test_nearest_method(), 'Test method')
+  nmap('crv ', jdtls.extract_variable, 'Extract Variable')
+
+  -- vnoremap('crv ', jdtls.extract_variable(true), 'Extract Variable')
+  nmap('crc ', jdtls.extract_constant, 'Extract constants')
+  --vnoremap('crc ', jdtls.extract_constant(true), 'Extract constants')
+  --vnoremap('crm ', jdtls.extract_method(true), 'Extract method')
+  nmap('<leader>df', jdtls.test_class, 'Test class')
+  nmap('<leader>dn', jdtls.test_nearest_method, 'Test method')
 end
 
-return { config, on_attach }
+
+return { settings = config, on_attach = on_attach }
 
 -- vim: ts=2 sts=2 sw=2 et

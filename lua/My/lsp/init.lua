@@ -82,11 +82,13 @@ for _, server in ipairs(servers) do
 
   local config_override = server_config_override[server]
   if (config_override) then
-    local config, on_attach = require(config_override)
-    _setup = config
+    local config = require(config_override)
+    _setup = config.settings
     server_on_attach = function(_, bufnr)
       global_on_attach(_, bufnr)
-      on_attach(_, bufnr)
+      if config.on_attach ~= nil then
+        config.on_attach(_, bufnr)
+      end
     end
   end
 
