@@ -36,9 +36,17 @@ if endswith(cwd, ".config/nvim") then
   settings.settings.Lua.workspace.checkThirdParty = false
 elseif endswith(cwd, ".config/awesome") then
   table.insert(settings.settings.Lua.workspace.library, '/usr/share/awesome/lib/')
+  local handle = io.popen('find /usr/share/awesome/lib -name "*.lua" -type f')
+  if handle ~= nil then
+    local result = handle:read("*a")
+    handle:close()
+    for file in result:gmatch("([^\n]*)\n?") do
+      table.insert(settings.settings.Lua.workspace.library, file)
+    end
+  end
   settings.settings.Lua.diagnostics.globals = { 'awesome', 'screen' }
 end
 
-return { settings =  settings }
+return { settings = settings }
 
 -- vim: ts=2 sts=2 sw=2 et
