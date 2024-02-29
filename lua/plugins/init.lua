@@ -31,7 +31,7 @@ return {
           change = { text = '~' },
           delete = { text = '_' },
           topdelete = { text = '‾' },
-          changedelete = { text = '~' },
+          changedelete = { text = 'o' },
         },
       }
     end
@@ -41,9 +41,9 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = {},
+    opts = { },
     config = function()
-      vim.cmd [[colorscheme tokyonight-night]]
+      vim.cmd.colorscheme 'tokyonight-night'
     end
   },
   {
@@ -66,8 +66,7 @@ return {
   -- Fuzzy Finder (files, lsp, etc)
 
   -- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make',   cond = vim.fn.executable 'make' == 1 },
-
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = vim.fn.executable 'make' == 1 },
   'ThePrimeagen/vim-be-good',
 
   {
