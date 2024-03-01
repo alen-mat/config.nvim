@@ -62,6 +62,10 @@ vim.o.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*"
 
+vim.o.cursorline = true
+vim.api.nvim_set_hl(0,'CursorLine',{})
+vim.api.nvim_set_hl(0,'cursorlinenr',{bold = true})
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
