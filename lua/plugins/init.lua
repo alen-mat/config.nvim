@@ -41,9 +41,18 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = { },
+    opts = {},
     config = function()
-      vim.cmd.colorscheme 'tokyonight-night'
+      --vim.cmd.colorscheme 'tokyo-night'
+    end
+  },
+  {
+    "RRethy/base16-nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    config = function()
+      vim.cmd.colorscheme 'base16-tomorrow-night'
     end
   },
   {
