@@ -16,5 +16,4 @@ local command = string.format('%s %s %s -o %s && %s', prog, flag, cfwp, of, of)
 
 
 
-vim.keymap.set('n', '<F5>', ':!zellij run -f -n "compile and run" -- fish -c "' .. command .. '"<CR>',
-  { desc = 'run file', silent = true })
+vim.keymap.set('n', '<F5>', ':!zellij run -f -n "compile and run" -- fish -c "' .. command .. '"<CR>', { desc = 'run file', silent = true })

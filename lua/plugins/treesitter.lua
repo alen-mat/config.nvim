@@ -12,7 +12,7 @@ return {
     ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup {
       -- Add languages to be installed here that you want installed for treesitter
-      ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'java', 'haskell', 'vim', 'vimdoc', 'help', 'markdown','org', },
+      ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'java', 'haskell', 'vim', 'vimdoc', 'markdown','org', },
 
       highlight = {
         enable = true,

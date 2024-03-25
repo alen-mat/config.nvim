@@ -13,11 +13,12 @@ local clients_lsp = function()
   return '\u{f085} ' .. table.concat(c, '|')
 end
 
-return {
+
+local lua_line = {
   'nvim-lualine/lualine.nvim',
   opts = {
     options = {
-      icons_enabled = false,
+      icons_enabled = true,
       theme = 'tokyonight',
       component_separators = '|',
       section_separators = '',
@@ -25,8 +26,11 @@ return {
     sections = {
       lualine_a = { 'mode' },
       lualine_b = { 'branch', 'diff', 'diagnostics' },
-      lualine_c = { 'filename' },
-      lualine_x = { clients_lsp, 'encoding', 'fileformat', 'filetype' },
+      lualine_c = { clients_lsp, {
+        'filename',
+        path = 1,
+      } },
+      lualine_x = { 'encoding', 'fileformat', 'filetype' },
       lualine_y = { 'progress' },
       lualine_z = { 'location' }
     },
@@ -40,3 +44,4 @@ return {
     },
   },
 }
+return {}
