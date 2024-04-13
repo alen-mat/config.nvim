@@ -1,5 +1,5 @@
 local utils = {}
-utils.show_in_popup = function(buf_text)
+utils.show_in_popup = function(buf_text, opt)
   local current_windows = vim.api.nvim_get_current_win()
   local win_width = vim.api.nvim_win_get_width(current_windows)
   local win_height = vim.api.nvim_win_get_height(current_windows)
@@ -31,6 +31,10 @@ utils.show_in_popup = function(buf_text)
   end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
 
   vim.keymap.set('n', "<ESC>", function()
+    vim.api.nvim_win_close(win, true)
+  end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
+
+  vim.keymap.set('n', "q", function()
     vim.api.nvim_win_close(win, true)
   end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
 

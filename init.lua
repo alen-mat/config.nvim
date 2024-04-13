@@ -63,8 +63,8 @@ vim.opt.scrolloff = 8
 vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*"
 
 vim.o.cursorline = true
-vim.api.nvim_set_hl(0,'CursorLine',{})
-vim.api.nvim_set_hl(0,'cursorlinenr',{bold = true})
+vim.api.nvim_set_hl(0, 'CursorLine', {})
+vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -120,18 +120,57 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- disble keys
 local keys = {
-  ["<Left>"] = {"i","v","n"} ,
-  ["<Right>"] = {"i","v","n"},
-  ["<Up>"] = {"i","v","n"},
-  ["<Down>"] = {"i","v","n"},
+  ["<Left>"] = { "i", "v", "n" },
+  ["<Right>"] = { "i", "v", "n" },
+  ["<Up>"] = { "i", "v", "n" },
+  ["<Down>"] = { "i", "v", "n" },
 }
 for _key, _modes in pairs(keys) do
-    vim.keymap.set(_modes, _key, function()
-      print('nope')
+  vim.keymap.set(_modes, _key, function()
+    print('nope')
   end)
 end
--- 
--- nvim-cmp setup
+
+vim.keymap.set('n', '<A-h>', function()
+  vim.cmd.wincmd('h')
+end, { desc = 'Move focus to left pane' })
+vim.keymap.set('n', '<A-j>', function()
+  vim.cmd.wincmd('j')
+end, { desc = 'Move focus to bottom pane' })
+vim.keymap.set('n', '<A-k>', function()
+  vim.cmd.wincmd('k')
+end, { desc = 'Move focus to top pane' })
+vim.keymap.set('n', '<A-l>', function()
+  vim.cmd.wincmd('l')
+end, { desc = 'Move focus to right pane' })
+
+vim.keymap.set('n', '<A-C-h>', function()
+  vim.cmd([[vertical resize -1]])
+end, { desc = 'Move focus to left pane' })
+vim.keymap.set('n', '<A-C-j>', function()
+  vim.cmd.resize('+1')
+end, { desc = 'Move focus to bottom pane' })
+vim.keymap.set('n', '<A-C-k>', function()
+  vim.cmd.resize('-1')
+end, { desc = 'Move focus to top pane' })
+vim.keymap.set('n', '<A-C-l>', function()
+  vim.cmd([[vertical resize +1]])
+end, { desc = 'Move focus to right pane' })
+
+
+vim.keymap.set('t', '<Leader><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<A-h>', function()
+  vim.cmd.wincmd('h')
+end, { desc = 'Move focus to left pane' })
+vim.keymap.set('t', '<A-j>', function()
+  vim.cmd.wincmd('j')
+end, { desc = 'Move focus to bottom pane' })
+vim.keymap.set('t', '<A-k>', function()
+  vim.cmd.wincmd('k')
+end, { desc = 'Move focus to top pane' })
+vim.keymap.set('t', '<A-l>', function()
+  vim.cmd.wincmd('l')
+end, { desc = 'Move focus to right pane' })
 
 
 if vim.g.neovide ~= nil then
