@@ -13,18 +13,12 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 require('lazy').setup('plugins')
 
 
--- [[ Setting options ]]
--- See `:help vim.o`
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -105,17 +99,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Enable Comment.nvim
 require('Comment').setup()
 
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-vim.keymap.set('n', '<leader><leader>d', function()
-  require('My.doter'):find()
-end, { desc = 'List [D]otfile' })
-
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run)
 
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- disble keys
@@ -157,25 +146,13 @@ vim.keymap.set('n', '<A-C-l>', function()
   vim.cmd([[vertical resize +1]])
 end, { desc = 'Move focus to right pane' })
 
-
-vim.keymap.set('t', '<Leader><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-vim.keymap.set('t', '<A-h>', function()
-  vim.cmd.wincmd('h')
-end, { desc = 'Move focus to left pane' })
-vim.keymap.set('t', '<A-j>', function()
-  vim.cmd.wincmd('j')
-end, { desc = 'Move focus to bottom pane' })
-vim.keymap.set('t', '<A-k>', function()
-  vim.cmd.wincmd('k')
-end, { desc = 'Move focus to top pane' })
-vim.keymap.set('t', '<A-l>', function()
-  vim.cmd.wincmd('l')
-end, { desc = 'Move focus to right pane' })
-
-
 if vim.g.neovide ~= nil then
   vim.g.neovide_refresh_rate_idle = 5
-  vim.opt.guifont = { "Source Code Pro", ":h9" }
+  if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+    vim.opt.guifont = { "Source Code Pro", ":h12" }
+  else
+    vim.opt.guifont = { "Source Code Pro", ":h9" }
+  end
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
   local alpha = function()
