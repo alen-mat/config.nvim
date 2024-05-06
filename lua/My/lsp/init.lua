@@ -1,5 +1,4 @@
 require('fidget').setup()
-
 local lsp_config = require('lspconfig')
 
 local flags = {
@@ -7,9 +6,30 @@ local flags = {
   debounce_text_changes = 200,
 }
 
+local servers = {
+  'clangd',
+  'rust_analyzer',
+  'pyright',
+  --'tsserver',
+  'lua_ls',
+  --'gopls',
+  -- 'java_language_server',
+  'jdtls',
+  --'hls',
+}
+
+local server_config_override = {
+  lua_ls = 'My.lsp.lua_ls',
+  jdtls = 'My.lsp.jtdls',
+  rust_analyzer = 'My.lsp.rust_analyzer',
+}
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my-lsp-attach', { clear = true }),
   callback = function(event)
+    --require('vim.lsp.codelens.refresh')
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+
     local nmap = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = event.buf, desc = 'LSP: ' .. desc })
     end
@@ -42,7 +62,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, '[W]orkspace [L]ist Folders')
 
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client.server_capabilities.documentHighlightProvider then
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = event.buf,
@@ -70,27 +89,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.buf.formatting()
       end
     end, { desc = 'Format current buffer with LSP' })
+
+    local config_override = server_config_override[client]
+    if (config_override) then
+      require(config_override).on_attach()
+    end
   end,
 })
-
-local servers = {
-  'clangd',
-  'rust_analyzer',
-  'pyright',
-  --'tsserver',
-  'lua_ls',
-  --'gopls',
-  -- 'java_language_server',
-  'jdtls',
-  --'hls',
-}
-
-local server_config_override = {
-  lua_ls = 'My.lsp.lua_ls',
-  jdtls = 'My.lsp.jtdls',
-  rust_analyzer = 'My.lsp.rust_analyzer',
-}
-
 
 require('mason').setup()
 

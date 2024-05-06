@@ -1,18 +1,37 @@
 local home = vim.fn.getenv("HOME")
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local mason_registry = require("mason-registry")
+
 local jdtls_pkg = mason_registry.get_package("jdtls")
 local jdtls_pkg_path = jdtls_pkg:get_install_path()
-local workspace_dir = jdtls_pkg_path .. '/workspace/' .. project_name
 local jdtls_launcher_path = vim.fn.glob(
   jdtls_pkg_path .. '/plugins/org.eclipse.equinox.launcher_*.jar'
 )
 
+local java_dap_pkg = mason_registry.get_package("java-debug-adapter")
+local java_dap_pkg_path = java_dap_pkg:get_install_path()
+local java_dap_launcher_path = vim.fn.glob(
+  java_dap_pkg_path .. '/extensions/server/com.microsoft.java.debug.plugin-*.jar'
+)
+
+local java_test_package = mason_registry.get_package('java-test'):get_install_path()
+local java_test_path = vim.split(
+  vim.fn.glob(java_test_package .. '/extension/server/*.jar'),
+  '\n'
+)
+
+local bundles= {java_dap_launcher_path}
+vim.list_extend(bundles, java_test_path)
+
+
+local workspace_dir = jdtls_pkg_path .. '/workspace/' .. project_name
+local java_bin = "/usr/lib/jvm/java-17-openjdk/bin/java"
+
 
 local config = {
   cmd = {
-    'java', -- or '/path/to/java17_or_newer/bin/java'
-
+    -- java17 or newer
+    java_bin,
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -69,7 +88,7 @@ local config = {
         downloadSources = true,
       },
       implementationsCodeLens = {
-        enabled = false, --Don"t automatically show implementations
+        enabled = true, --Don"t automatically show implementations
       },
       inlayHints = {
         parameterNames = { enabled = "all" }
@@ -78,7 +97,7 @@ local config = {
         downloadSources = true,
       },
       referencesCodeLens = {
-        enabled = false, --Don"t automatically show references
+        enabled = true, --Don"t automatically show references
       },
       references = {
         includeDecompiledSources = true,
@@ -121,7 +140,7 @@ local config = {
   },
 
   init_options = {
-    bundles = {},
+    bundles = bundles,
   },
 }
 
@@ -142,10 +161,10 @@ local function on_attach(_, bufnr)
   nmap('<A-o>', jdtls.organize_imports, 'Organize Imports')
 
 
-  nmap('crv ', jdtls.extract_variable, 'Extract Variable')
+  nmap('<leader>crv ', jdtls.extract_variable, 'Extract Variable')
 
   -- vnoremap('crv ', jdtls.extract_variable(true), 'Extract Variable')
-  nmap('crc ', jdtls.extract_constant, 'Extract constants')
+  nmap('<leader>crc ', jdtls.extract_constant, 'Extract constants')
   --vnoremap('crc ', jdtls.extract_constant(true), 'Extract constants')
   --vnoremap('crm ', jdtls.extract_method(true), 'Extract method')
   nmap('<leader>df', jdtls.test_class, 'Test class')
