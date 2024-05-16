@@ -43,6 +43,7 @@ return {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'orgmode' },
+        { name = 'buffer' },
       },
     }
     return opts
