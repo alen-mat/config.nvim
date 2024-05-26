@@ -18,10 +18,13 @@ local servers = {
   --'hls',
 }
 
+local ensure_installed = servers
+require("mason-tool-installer").setup { ensure_installed = ensure_installed }
+
 local server_config_override = {
-  lua_ls = 'My.lsp.lua_ls',
-  jdtls = 'My.lsp.jtdls',
-  rust_analyzer = 'My.lsp.rust_analyzer',
+  lua_ls = require 'My.lsp.lua_ls',
+  jdtls = require 'My.lsp.jtdls',
+  rust_analyzer = require 'My.lsp.rust_analyzer',
 }
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -90,8 +93,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end
     end, { desc = 'Format current buffer with LSP' })
 
-    local config_override = server_config_override[client]
-    if (config_override) then
+    local config_override = server_config_override[client] or {}
+    if (config_override.on_attach) then
       require(config_override).on_attach()
     end
   end,
@@ -105,11 +108,8 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 for _, server_name in ipairs(servers) do
   local server = {}
 
-  local config_override = server_config_override[server_name]
-  if (config_override) then
-    local config = require(config_override)
-    server = config.settings
-  end
+  local config_override = server_config_override[client] or {}
+  server = config_override.settings or {}
 
   server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
   server.flags = flags
