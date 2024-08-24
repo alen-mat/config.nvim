@@ -8,25 +8,45 @@ local flags = {
 }
 
 local servers = {
-  'clangd',
-  'rust_analyzer',
-  'pyright',
-  --'tsserver',
-  'lua_ls',
-  --'gopls',
-  -- 'java_language_server',
-  'jdtls',
-  --'hls',
+  clangd = true,
+  pyright = true,
+  lua_ls = require('My.lsp.lua_ls'),
+  jdtls = require('My.lsp.jtdls'),
+  rust_analyzer = require('My.lsp.rust_analyzer'),
 }
 
-local ensure_installed = servers
+local servers_to_install = vim.tbl_filter(function(key)
+  local t = servers[key]
+  if type(t) == "table" then
+    return not t.manual_install
+  else
+    return t
+  end
+end, vim.tbl_keys(servers))
+
+local ensure_installed = {
+  --"stylua",
+  --"lua_ls",
+  --"delve",
+  -- "tailwind-language-server",
+}
 require("mason-tool-installer").setup { ensure_installed = ensure_installed }
 
-local server_config_override = {
-  lua_ls = require 'My.lsp.lua_ls',
-  jdtls = require 'My.lsp.jtdls',
-  rust_analyzer = require 'My.lsp.rust_analyzer',
-}
+local basic_capabilities = vim.lsp.protocol.make_client_capabilities()
+basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('cmp_nvim_lsp').default_capabilities())
+
+for server, config in pairs(servers) do
+  local params = {}
+
+  if type(config) == "table" then
+    params = config.params or {}
+  end
+
+  params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
+  params.flags = flags
+  --setup.on_attach = server_on_attach
+  lsp_config[server].setup(params)
+end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my-lsp-attach', { clear = true }),
@@ -94,26 +114,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end
     end, { desc = 'Format current buffer with LSP' })
 
-    local config_override = server_config_override[client] or {}
-    if (config_override.on_attach) then
-      require(config_override).on_attach()
-    end
+    -- local config_override = server_config_override[client] or {}
+    -- if (config_override.on_attach) then
+    --   require(config_override).on_attach()
+    -- end
   end,
 })
 
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
-
-for _, server_name in ipairs(servers) do
-  local server = {}
-
-  local config_override = server_config_override[client] or {}
-  server = config_override.settings or {}
-
-  server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-  server.flags = flags
-  --setup.on_attach = server_on_attach
-  lsp_config[server_name].setup(server)
-end
 -- vim: ts=2 sts=2 sw=2 et

@@ -1,4 +1,4 @@
-local settings = {
+local params = {
   settings = {
     ['rust-analyzer'] = {
       cargo = {
@@ -18,5 +18,5 @@ local settings = {
     },
   },
 }
-return { settings = settings }
+return { params = params }
 -- vim: ts=2 sts=2 sw=2 et

@@ -28,7 +28,7 @@ local workspace_dir = jdtls_pkg_path .. '/workspace/' .. project_name
 local java_bin = "/usr/lib/jvm/java-17-openjdk/bin/java"
 
 
-local config = {
+local params = {
   cmd = {
     -- java17 or newer
     java_bin,
@@ -145,8 +145,8 @@ local config = {
 }
 
 local jdtls = require("jdtls")
-config.init_options.extendedClientCapabilities = jdtls.extendedClientCapabilities
-config.init_options.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+params.init_options.extendedClientCapabilities = jdtls.extendedClientCapabilities
+params.init_options.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local function on_attach(_, bufnr)
   local nmap = function(keys, func, desc)
@@ -172,6 +172,6 @@ local function on_attach(_, bufnr)
 end
 
 
-return { settings = config, on_attach = on_attach }
+return { params = params, on_attach = on_attach }
 
 -- vim: ts=2 sts=2 sw=2 et
