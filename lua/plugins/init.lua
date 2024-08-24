@@ -52,8 +52,18 @@ return {
     priority = 1000,
     opts = {},
     config = function()
-      vim.cmd.colorscheme 'base16-tomorrow-night'
+      -- vim.cmd.colorscheme 'base16-tomorrow-night'
     end
+  },
+  {
+    "tiagovla/tokyodark.nvim",
+    opts = {
+      -- custom options here
+    },
+    config = function(_, opts)
+      require("tokyodark").setup(opts)   -- calling setup is optional
+      vim.cmd [[colorscheme tokyodark]]
+    end,
   },
   {
     'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
@@ -126,6 +136,6 @@ return {
   {
     'mrcjkb/haskell-tools.nvim',
     version = '^3', -- Recommended
-    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject','hs' },
+    ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject', 'hs' },
   }
 }

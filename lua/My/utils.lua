@@ -1,5 +1,9 @@
 local utils = {}
 utils.show_in_popup = function(buf_text, opt)
+  if type(buf_text) == "string" then
+    buf_text = {buf_text}
+  end
+
   local current_windows = vim.api.nvim_get_current_win()
   local win_width = vim.api.nvim_win_get_width(current_windows)
   local win_height = vim.api.nvim_win_get_height(current_windows)
