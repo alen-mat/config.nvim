@@ -11,36 +11,29 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      mapping = cmp.mapping.preset.insert {
+      mapping = {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
+        ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
         ['<C-y>'] = cmp.mapping(
           cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
             select = true,
           },
           { "i", "c" }),
-        ['<C-n>'] = cmp.mapping(function(fallback)
-          if luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ['<C-p>'] = cmp.mapping(function(fallback)
-          if luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
       },
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'orgmode' },
+        { name = 'path' },
         { name = 'buffer' },
+      },
+      snippet = {
+        expand = function(args)
+          vim.snippet.expand(args.body)
+        end,
       },
     }
     cmp.setup.filetype({ "sql" }, {
@@ -54,9 +47,5 @@ return {
       history = false,
       updateevents = "TextChanged,TextChangedI",
     }
-
-    for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/My/snippets/*.lua", true)) do
-      loadfile(ft_path)()
-    end
   end
 }
