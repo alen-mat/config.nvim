@@ -39,5 +39,5 @@ vim.api.nvim_set_hl(0, 'CursorLine', {})
 vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menuone,noselect,noinsert,preview'
 vim.o.conceallevel = 2
