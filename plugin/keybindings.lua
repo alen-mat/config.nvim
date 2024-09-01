@@ -64,5 +64,24 @@ vim.keymap.set('n', '<A-C-l>', function()
   vim.cmd([[vertical resize +1]])
 end, { desc = 'Move focus to right pane' })
 
+local function quit()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local buf_windows = vim.call("win_findbuf", bufnr)
+  local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
+  if modified and #buf_windows == 1 then
+    vim.ui.input({
+      prompt = "... unwritten changes, want to quit? (y/n) ",
+    }, function(input)
 
+      if input == "y" then
+        vim.cmd("qa!")
+      end
+    end)
+  else
+    vim.cmd("qa!")
+  end
+end
 
+vim.keymap.set("n", "<leader>q", quit, { silent = true })
+
+-- vim: ts=2 sts=2 sw=2 et
