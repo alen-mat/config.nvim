@@ -91,7 +91,7 @@ return {
         min_chars = 2,
       },
       ui = {
-        enable = true,
+        enable = false,
         update_debounce = 200,
         max_file_length = 5000,
         checkboxes = {
@@ -123,6 +123,11 @@ return {
         },
       },
     },
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {},
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },  -- if you prefer nvim-web-devicons
   }
 }
 
