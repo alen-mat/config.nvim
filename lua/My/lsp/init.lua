@@ -15,6 +15,20 @@ local servers = {
   rust_analyzer = require('My.lsp.rust_analyzer'),
 }
 
+servers["ocamllsp"] = {
+  manual_install = true,
+  cmd = { "dune", "exec", "ocamllsp" },
+  settings = {
+    codelens = { enable = true },
+    inlayHints = { enable = true },
+    syntaxDocumentation = { enable = true },
+  },
+  server_capabilities = {
+    semanticTokensProvider = false,
+  },
+}
+
+
 local servers_to_install = vim.tbl_filter(function(key)
   local t = servers[key]
   if type(t) == "table" then
@@ -30,6 +44,7 @@ local ensure_installed = {
   --"delve",
   -- "tailwind-language-server",
 }
+vim.list_extend(ensure_installed, servers_to_install)
 require("mason-tool-installer").setup { ensure_installed = ensure_installed }
 
 local basic_capabilities = vim.lsp.protocol.make_client_capabilities()
