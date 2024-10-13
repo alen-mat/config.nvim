@@ -27,6 +27,15 @@ servers["ocamllsp"] = {
     semanticTokensProvider = false,
   },
 }
+servers.zls  = {
+  manual_install = true,
+  cmd = { 'zls' },
+  settings = {
+    codelens = { enable = true },
+    inlayHints = { enable = true },
+    syntaxDocumentation = { enable = true },
+  },
+}
 
 
 local servers_to_install = vim.tbl_filter(function(key)

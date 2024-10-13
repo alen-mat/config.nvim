@@ -21,6 +21,10 @@ return {
     'mfussenegger/nvim-jdtls'
   },
   config = function()
+    if vim.opt.diff:get() then
+      vim.notify("In diff-mode skipping lsp", vim.log.levels.WARN, { title = "nvim-lsp" })
+      return
+    end
     require('My.lsp')
   end
 }

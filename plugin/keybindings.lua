@@ -24,6 +24,9 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run)
 
+vim.keymap.set('n', '<space>|', vim.cmd.vsplit)
+vim.keymap.set('n', '<space>-', vim.cmd.split)
+
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- disble keys
 local keys = {
