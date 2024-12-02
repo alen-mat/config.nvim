@@ -1,18 +1,12 @@
-local clients_lsp = function()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local msg = '¯\\_(ツ)_/¯'
-  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-  local clients = vim.lsp.get_clients({bufnr = bufnr})
-  if next(clients) == nil then
-    return msg
+local client_lsp = require("My.utils").clients_lsp
+
+local clients_lsp_name = function()
+  local client = client_lsp()
+  if client == nil then
+    return '¯\\_(ツ)_/¯'
+  else
+    return client.name
   end
-  for _, client in ipairs(clients) do
-    local filetypes = client.config.filetypes
-    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-      return client.name
-    end
-  end
-  return msg
 end
 
 local conditions = {
@@ -92,7 +86,7 @@ end
 
 add_left1('mode')
 add_left2({
-  clients_lsp,
+  clients_lsp_name,
   icon = ' ',
   color = { fg = '#ffffff', gui = 'bold' },
   cond = conditions.buffer_not_empty,

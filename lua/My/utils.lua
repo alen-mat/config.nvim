@@ -1,7 +1,7 @@
 local utils = {}
 utils.show_in_popup = function(buf_text, opt)
   if type(buf_text) == "string" then
-    buf_text = {buf_text}
+    buf_text = { buf_text }
   end
 
   local current_windows = vim.api.nvim_get_current_win()
@@ -47,7 +47,7 @@ utils.show_in_popup = function(buf_text, opt)
   vim.opt_local.modifiable = false
 end
 
-utils.out_in_pp= function(command)
+utils.out_in_pp = function(command)
   local state = {}
   local add_to_state = function(data)
     if not data then
@@ -75,6 +75,22 @@ utils.out_in_pp= function(command)
     }
   )
   vim.fn.jobwait({ jobid })
+end
+
+utils.clients_lsp = function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+  if next(clients) == nil then
+    return
+  end
+  for _, client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      return client
+    end
+  end
+  return
 end
 return utils
 -- vim: ts=2 sts=2 sw=2 et
