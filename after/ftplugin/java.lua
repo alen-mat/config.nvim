@@ -2,6 +2,11 @@ vim.bo.shiftwidth = 2
 vim.bo.softtabstop = 2
 vim.bo.tabstop = 2
 
-vim.keymap.set('n',"<leader><F5>", ":!zellij run -f -- mvn test<CR>", { desc ='Maven test'})
+local utils = require("My.utils")
 
-vim.keymap.set('n','<F5>',  ":!zellij run -f -- mvn clean install<CR>", { desc = 'Maven Build' })
+vim.keymap.set('n', '<F5>', function()
+  local client = utils.clients_lsp()
+  if client then
+    utils.out_in_pp({ "mvn", "-q", "-f", client.config.root_dir, "clean", "package", "exec:java" })
+  end
+end, { desc = 'run file', silent = true })

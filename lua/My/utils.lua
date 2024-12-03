@@ -8,8 +8,8 @@ utils.show_in_popup = function(buf_text, opt)
   local win_width = vim.api.nvim_win_get_width(current_windows)
   local win_height = vim.api.nvim_win_get_height(current_windows)
 
-  local width = 50
-  local height = 10
+  local width = 100
+  local height = 30
   local col = (win_width / 2) - (width / 2)
   local row = (win_height / 2) - (height / 2)
 
