@@ -47,34 +47,42 @@ utils.show_in_popup = function(buf_text, opt)
   vim.opt_local.modifiable = false
 end
 
-utils.out_in_pp = function(command)
+utils.out_in_pp = function(command, args)
   local state = {}
   local add_to_state = function(data)
     if not data then
       return
     end
-    for _, line in pairs(data) do
-      if line ~= nil and line ~= '' then
-        table.insert(state, line)
+    if type(data) == "table" then
+      for _, line in pairs(data) do
+        if line ~= nil and line ~= '' then
+          table.insert(state, line)
+        end
       end
+    else
+      table.insert(state, data)
     end
   end
-  local jobid = vim.fn.jobstart(
-    command,
-    {
-      on_stdout = function(chanid, data, name)
-        add_to_state(data)
-      end,
-      on_stderr = function(chanid, data, name)
-        add_to_state(data)
-      end,
-      on_exit = function(id, exitcode, event)
+
+  local Job = require('plenary.job')
+  Job:new({
+    command = command,
+    args = args,
+    on_start = function(j, return_val)
+      print("--starting job--")
+    end,
+    on_stdout = function(_, data)
+      add_to_state(data)
+    end,
+    on_stderr = function(_, data)
+      add_to_state(data)
+    end,
+    on_exit = vim.schedule_wrap(
+      function(j, exitcode)
         utils.show_in_popup(state)
         print("exit, exitcode:" .. vim.inspect(exitcode))
-      end,
-    }
-  )
-  vim.fn.jobwait({ jobid })
+      end),
+  }):start()
 end
 
 utils.clients_lsp = function()
