@@ -1,13 +1,24 @@
 return {
   'nvim-telescope/telescope.nvim',
   event = 'VeryLazy',
-  dependencies = { 'nvim-lua/plenary.nvim' },
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+    }
+  },
 
   config = function()
-    local client_lsp = require("My.utils").clients_lsp
-
     require('telescope').setup {
-
+      extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "smart_case",
+        }
+      },
       defaults = {
         mappings = {
           i = {
@@ -30,15 +41,6 @@ return {
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-    vim.keymap.set('n', '<leader>sR', function()
-      local client = client_lsp()
-      if client == nil then
-        vim.notify("Current buffer has no lsp", vim.log.levels.INFO, { title = "Telescope" })
-      else
-        builtin.find_files { cwd = client.config.root_dir }
-      end
-
-    end, { desc = '[S]earch File from lsp [R]oot' })
     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
