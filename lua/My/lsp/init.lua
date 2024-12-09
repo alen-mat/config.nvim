@@ -1,13 +1,13 @@
 require('fidget').setup()
 require('mason').setup()
-local lsp_config = require('lspconfig')
+local lsp_config    = require('lspconfig')
 
-local flags = {
+local flags         = {
   allow_incremental_sync = true,
   debounce_text_changes = 200,
 }
 
-local servers = {
+local servers       = {
   clangd = true,
   pyright = true,
   lua_ls = require('My.lsp.lua_ls'),
@@ -27,7 +27,7 @@ servers["ocamllsp"] = {
     semanticTokensProvider = false,
   },
 }
-servers.zls  = {
+servers.zls         = {
   manual_install = true,
   cmd = { 'zls' },
   settings = {
@@ -82,30 +82,40 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-    nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-    nmap('<space>cl', vim.lsp.codelens.run, '[Code] [L]ense')
+    nmap('<leader>lr', vim.lsp.buf.rename, '[R]e[n]ame')
+    nmap('<leader>la', vim.lsp.buf.code_action, '[C]ode [A]ction')
+    nmap('<space>ll', vim.lsp.codelens.run, '[Code] [L]ense')
+    nmap("<leader>D", vim.diagnostic.open_float, '[V]iew [D]iagnostic')
 
-    nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+    nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+    -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+
     nmap('<leader>lr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-    nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+
+    -- nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+    nmap('gI', require('telescope.builtin').lsp_implementations, '[L]sp [I]mplementation')
 
     --nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-    nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-    nmap('<leader>li', require('telescope.builtin').lsp_implementations, '[L]sp [I]mplementation')
+    nmap('<leader>ld', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
     nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-    nmap("<leader>vd", vim.diagnostic.open_float, '[V]iew [D]iagnostic')
+
+    nmap('<leader>lci', function()
+      require('telescope.builtin').lsp_incoming_calls(require('telescope.themes').get_ivy({}))
+    end, '[L]SP [I]ncoming [C]alls')
+    nmap('<leader>lco', function() 
+      require('telescope.builtin').lsp_outgoing_calls(require('telescope.themes').get_ivy({}))
+    end, '[L]SP [O]utgoing [C]alls')
 
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
-    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
     nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 
-    nmap('<leader>ld', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
     nmap('<leader>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
@@ -126,7 +136,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- This may be unwanted, since they displace some of your code
     -- [Kick Start] see how theses goes
     if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-      nmap('<leader>th', function()
+      nmap('<leader>lh', function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
       end, '[T]oggle Inlay [H]ints')
     end
