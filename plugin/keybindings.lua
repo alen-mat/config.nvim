@@ -68,7 +68,7 @@ vim.keymap.set('n', '<A-C-l>', function()
 end, { desc = 'Move focus to right pane' })
 
 vim.keymap.set("n", "<leader>q", function()
-  require("custom.bufdelete")()
+  require("custom.folke.snacks.bufdelete")()
 end, { silent = true })
 
 -- vim: ts=2 sts=2 sw=2 et
