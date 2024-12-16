@@ -64,3 +64,6 @@ vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect,noinsert,preview'
 vim.o.conceallevel = 2
+
+--- LSP ---
+vim.diagnostic.config({virtual_text = false})
