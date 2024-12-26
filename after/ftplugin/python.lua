@@ -16,5 +16,5 @@ vim.bocolorcolumn = 100
 
 local out_in_pp = require("My.utils").out_in_pp
 vim.keymap.set('n', '<F5>', function()
-  out_in_pp({ "python", "-u", vim.fn.expand('%') })
+  out_in_pp("python",{ "-u", vim.fn.expand('%') })
 end, { desc = 'run file', silent = true })

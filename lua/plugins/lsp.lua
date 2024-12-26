@@ -1,4 +1,5 @@
-return {
+return{
+  {
   -- LSP Configuration & Plugins
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -36,5 +37,40 @@ return {
         prefix = "",
       },
     })
-  end
+  end,
+},
+  {
+    {
+      "folke/lazydev.nvim",
+      dependencies = {
+        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
+      },
+      ft = "lua", -- only load on lua files
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          {
+            path = "${3rd}/luv/library",
+            words = { "vim%.uv" },
+            "LazyVim",
+            -- Only load the lazyvim library when the `LazyVim` global is found
+            { path = "LazyVim",                   words = { "LazyVim" } },
+            -- Load the wezterm types when the `wezterm` module is required
+            -- Needs `justinsgithub/wezterm-types` to be installed
+            { path = "wezterm-types",             mods = { "wezterm" } },
+            -- Load the xmake types when opening file named `xmake.lua`
+            -- Needs `LelouchHe/xmake-luals-addon` to be installed
+            { path = "xmake-luals-addon/library", files = { "xmake.lua" } },
+          },
+        },
+        enabled = function(root_dir)
+          --return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
+          return vim.g.lazydev_enabled == nil and true or vim.g.lazydev_enabled
+        end,
+      },
+      -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
+    }
+  }
 }

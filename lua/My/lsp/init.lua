@@ -10,7 +10,7 @@ local flags         = {
 local servers       = {
   clangd = true,
   pyright = true,
-  lua_ls = require('My.lsp.lua_ls'),
+  lua_ls = true,--require('My.lsp.lua_ls'),
   jdtls = require('My.lsp.jtdls'),
   rust_analyzer = require('My.lsp.rust_analyzer'),
 }
@@ -57,7 +57,8 @@ vim.list_extend(ensure_installed, servers_to_install)
 require("mason-tool-installer").setup { ensure_installed = ensure_installed }
 
 local basic_capabilities = vim.lsp.protocol.make_client_capabilities()
-basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('cmp_nvim_lsp').default_capabilities())
+--basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('cmp_nvim_lsp').default_capabilities())
+basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('blink.cmp').get_lsp_capabilities())
 
 for server, config in pairs(servers) do
   local params = {}
@@ -92,7 +93,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
     -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 
-    nmap('<leader>lr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    nmap('<leader>gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
     -- nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
     nmap('gI', require('telescope.builtin').lsp_implementations, '[L]sp [I]mplementation')

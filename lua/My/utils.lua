@@ -14,7 +14,6 @@ utils.show_in_popup = function(buf_text, opt)
   local row = (win_height / 2) - (height / 2)
 
   local buf = vim.api.nvim_create_buf(false, true)
-  local bufnr = vim.api.nvim_buf_get_number(buf)
   local opts = {
     relative = 'editor',
     width = width,
@@ -27,20 +26,20 @@ utils.show_in_popup = function(buf_text, opt)
   }
 
   local win = vim.api.nvim_open_win(buf, true, opts)
-  vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-  vim.api.nvim_win_set_option(win, "winblend", 0)
+  vim.api.nvim_set_option_value("bufhidden", "wipe",{buf=buf})
+  vim.api.nvim_set_option_value("winblend", 0,{win = win})
 
   vim.keymap.set('n', "<leader>", function()
     vim.api.nvim_win_close(win, true)
-  end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
+  end, { desc = 'Close window', silent = true, nowait = true, buffer = buf, noremap = true })
 
   vim.keymap.set('n', "<ESC>", function()
     vim.api.nvim_win_close(win, true)
-  end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
+  end, { desc = 'Close window', silent = true, nowait = true, buffer = buf, noremap = true })
 
   vim.keymap.set('n', "q", function()
     vim.api.nvim_win_close(win, true)
-  end, { desc = 'Close window', silent = true, nowait = true, buffer = bufnr, noremap = true })
+  end, { desc = 'Close window', silent = true, nowait = true, buffer = buf, noremap = true })
 
   vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, buf_text)
   vim.bo[buf].readonly = true
@@ -64,12 +63,19 @@ utils.out_in_pp = function(command, args)
     end
   end
 
+  local progress = require("fidget.progress")
   local Job = require('plenary.job')
+
+  local handle = progress.handle.create({
+    title = command,
+    message = "Initialising",
+    lsp_client = { name = "[JOB]" },
+  })
   Job:new({
     command = command,
     args = args,
     on_start = function(j, return_val)
-      print("--starting job--")
+      handle.message = "Running"
     end,
     on_stdout = function(_, data)
       add_to_state(data)
@@ -80,9 +86,12 @@ utils.out_in_pp = function(command, args)
     on_exit = vim.schedule_wrap(
       function(j, exitcode)
         utils.show_in_popup(state)
+        handle.message = "Done"
+        handle:finish()
         print("exit, exitcode:" .. vim.inspect(exitcode))
       end),
   }):start()
+  
 end
 
 utils.clients_lsp = function()
