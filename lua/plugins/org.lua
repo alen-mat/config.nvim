@@ -87,11 +87,10 @@ return {
       },
 
       completion = {
-        nvim_cmp = true,
         min_chars = 2,
       },
       ui = {
-        enable = false,
+        enable = true,
         update_debounce = 200,
         max_file_length = 5000,
         checkboxes = {
@@ -122,12 +121,31 @@ return {
           ObsidianHighlightText = { bg = "#75662e" },
         },
       },
+      note_frontmatter_func = function(note)
+        -- Add the title of the note as an alias.
+        if note.title then
+          note:add_alias(note.title)
+        end
+
+        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+
+        -- `note.metadata` contains any manually added fields in the frontmatter.
+        -- So here we just make sure those fields are kept in the frontmatter.
+        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+          for k, v in pairs(note.metadata) do
+            out[k] = v
+          end
+        end
+
+        return out
+      end,
     },
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    enabled = false,
     opts = {},
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },  -- if you prefer nvim-web-devicons
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   }
 }
 

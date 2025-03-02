@@ -109,4 +109,12 @@ return {
   --   version = '^3', -- Recommended
   --   ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject', 'hs' },
   -- }
+  {
+    'jbyuki/nabla.nvim',
+    config = function()
+      local nabla = require("nabla")
+      nabla.enable_virt()
+      vim.keymap.set('n', '<leader>lp', nabla.popup , { desc = 'run file', silent = true })
+    end
+  }
 }
