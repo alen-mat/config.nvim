@@ -66,4 +66,15 @@ vim.o.completeopt = 'menuone,noselect,noinsert,preview'
 vim.o.conceallevel = 2
 
 --- LSP ---
-vim.diagnostic.config({virtual_text = false})
+vim.diagnostic.config({
+  -- update_in_insert = true,
+  virtual_lines = { only_current_line = true },
+  float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  },
+})

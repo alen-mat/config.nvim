@@ -43,5 +43,6 @@ dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
 
 require('My.dap.python')
+require('My.dap.zig')
 -- Install golang specific config
 require('dap-go').setup()
