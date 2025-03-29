@@ -26,8 +26,8 @@ utils.show_in_popup = function(buf_text, opt)
   }
 
   local win = vim.api.nvim_open_win(buf, true, opts)
-  vim.api.nvim_set_option_value("bufhidden", "wipe",{buf=buf})
-  vim.api.nvim_set_option_value("winblend", 0,{win = win})
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
+  vim.api.nvim_set_option_value("winblend", 0, { win = win })
 
   vim.keymap.set('n', "<leader>", function()
     vim.api.nvim_win_close(win, true)
@@ -91,7 +91,6 @@ utils.out_in_pp = function(command, args)
         print("exit, exitcode:" .. vim.inspect(exitcode))
       end),
   }):start()
-  
 end
 
 utils.clients_lsp = function()
@@ -107,7 +106,33 @@ utils.clients_lsp = function()
       return client
     end
   end
-  return
 end
+
+utils.on_telescope = function(opts)
+  local pickers = require "telescope.pickers"
+  local finders = require "telescope.finders"
+  local conf = require("telescope.config").values
+  local actions_state = require("telescope.actions.state")
+  local actions = require("telescope.actions")
+
+  local on_enter = function(prompt_bufnr)
+    local selected_entry = actions_state.get_selected_entry()
+    opts.on_enter(selected_entry)
+    actions.close(prompt_bufnr)
+  end
+
+  pickers.new(opts.telescope, {
+    prompt_title = "Process",
+    finder = finders.new_oneshot_job(opts.cmd, opts.telescope),
+    sorter = conf.generic_sorter(opts.telescope),
+    attach_mappings = function(_, map)
+      map("n", "<cr>", on_enter)
+      map("i", "<cr>", on_enter)
+      return true
+    end,
+  }):find()
+end
+-- to execute the function
+
 return utils
 -- vim: ts=2 sts=2 sw=2 et

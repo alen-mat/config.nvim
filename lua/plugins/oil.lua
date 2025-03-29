@@ -14,7 +14,12 @@ return {
         },
       }
 
-      vim.keymap.set("n", "<leader>0", require("oil").toggle_float)
     end,
+  },
+{ 'echasnovski/mini.files', version = false,
+    config = function ()
+      require('mini.files').setup()
+      vim.keymap.set("n", "<leader>0", require("mini.files").open)
+    end
   },
 }

@@ -39,6 +39,7 @@ return {
         ['<C-space>'] = { 'show_and_insert', },
         ['<C-n>'] = { 'select_next' },
         ['<C-p>'] = { 'select_prev' },
+        ["<C-y>"] = { "select_and_accept" },
       },
 
       appearance = {
