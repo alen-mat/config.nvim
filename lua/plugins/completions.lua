@@ -48,7 +48,7 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', "lazydev" },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
         per_filetype = { sql = { 'dadbod' } },
         providers = {
           -- dont show LuaLS require statements when lazydev has items

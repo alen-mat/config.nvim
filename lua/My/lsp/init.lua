@@ -1,42 +1,69 @@
-require('fidget').setup()
-require('mason').setup()
-local lsp_config    = require('lspconfig')
+---@diagnostic disable-next-line: missing-fields
+require('mason').setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    }
+  }
+})
 
-local flags         = {
+local lsp_config         = require('lspconfig')
+
+local flags              = {
   allow_incremental_sync = true,
   debounce_text_changes = 200,
 }
 
-local servers       = {
-  clangd = true,
-  pyright = true,
-  lua_ls = true,--require('My.lsp.lua_ls'),
-  jdtls = require('My.lsp.jtdls'),
-  rust_analyzer = require('My.lsp.rust_analyzer'),
-}
+local servers            = {
+  clangd        = true,
+  pyright       = true,
+  lua_ls        = true,
+  jdtls         = true,
+  rust_analyzer = {
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = {
+          allFeatures = true,
+        },
+        checkOnSave = {
+          allFeatures = true,
+          command = 'clippy',
+        },
+        procMacro = {
+          ignored = {
+            ['async-trait'] = { 'async_trait' },
+            ['napi-derive'] = { 'napi' },
+            ['async-recursion'] = { 'async_recursion' },
+          },
+        },
+      },
+    },
+  },
+  ocamllsp      = {
+    manual_install = true,
+    cmd = { "dune", "exec", "ocamllsp" },
+    settings = {
+      codelens = { enable = true },
+      inlayHints = { enable = true },
+      syntaxDocumentation = { enable = true },
+    },
+    server_capabilities = {
+      semanticTokensProvider = false,
+    },
+  },
+  zls           = {
+    manual_install = true,
+    cmd = { 'zls' },
+    settings = {
+      codelens = { enable = true },
+      inlayHints = { enable = true },
+      syntaxDocumentation = { enable = true },
+    },
+  }
 
-servers["ocamllsp"] = {
-  manual_install = true,
-  cmd = { "dune", "exec", "ocamllsp" },
-  settings = {
-    codelens = { enable = true },
-    inlayHints = { enable = true },
-    syntaxDocumentation = { enable = true },
-  },
-  server_capabilities = {
-    semanticTokensProvider = false,
-  },
 }
-servers.zls         = {
-  manual_install = true,
-  cmd = { 'zls' },
-  settings = {
-    codelens = { enable = true },
-    inlayHints = { enable = true },
-    syntaxDocumentation = { enable = true },
-  },
-}
-
 
 local servers_to_install = vim.tbl_filter(function(key)
   local t = servers[key]
@@ -47,7 +74,7 @@ local servers_to_install = vim.tbl_filter(function(key)
   end
 end, vim.tbl_keys(servers))
 
-local ensure_installed = {
+local ensure_installed   = {
   --"stylua",
   --"lua_ls",
   --"delve",
@@ -68,7 +95,7 @@ for server, config in pairs(servers) do
   end
 
   params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
-  params.flags = flags
+  params.flags = vim.tbl_deep_extend('force', {}, flags, params.flags or {})
   --setup.on_attach = server_on_attach
   lsp_config[server].setup(params)
 end
