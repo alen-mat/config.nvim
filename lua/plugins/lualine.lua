@@ -43,6 +43,7 @@ local opts = {
     -- theme = 'tokyonight',
     component_separators = '',
     section_separators = '',
+    globalstatus = true,
   },
   sections = {
     lualine_a = {},
@@ -132,9 +133,6 @@ add_right2({
 add_right2('branch')
 add_right3('progress')
 add_right3('location')
-
-
-vim.o.showmode = false
 
 return {
   'nvim-lualine/lualine.nvim',

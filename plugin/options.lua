@@ -1,10 +1,11 @@
 if vim.g.neovide ~= nil then
   vim.g.neovide_refresh_rate_idle = 5
-  if os.getenv("XDG_SESSION_TYPE") == "wayland" then
-    vim.opt.guifont = { "Source Code Pro", ":h12" }
-  else
-    vim.opt.guifont = { "Source Code Pro", ":h9" }
-  end
+  -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+  --   vim.opt.guifont = { "Source Code Pro", ":h12" }
+  -- else
+  --   vim.opt.guifont = { "Source Code Pro", ":h9" }
+  -- end
+  vim.opt.guifont = { "Source Code Pro", ":h9" }
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
   local alpha = function()
@@ -21,37 +22,19 @@ if vim.g.neovide ~= nil then
   vim.g.neovide_light_radius = 5
   vim.g.neovide_confirm_quit = true
 end
--- Set highlight on search
+
 vim.o.hlsearch = false
-
--- Make line numbers default
 vim.wo.number = true
-
--- Relative line numbers
-vim.opt.relativenumber = true
-
--- Enable mouse mode
+vim.o.relativenumber = true
 vim.o.mouse = 'a'
-
--- Enable break indent
 vim.o.breakindent = true
-
--- Save undo history
 vim.o.undofile = true
-
--- Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
--- Search highlight
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-
--- Decrease update time
+vim.o.hlsearch = true
+vim.o.incsearch = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
-
--- Set colorscheme
 vim.o.termguicolors = true
 
 vim.opt.scrolloff = 8
@@ -78,3 +61,6 @@ vim.diagnostic.config({
     prefix = "",
   },
 })
+
+vim.o.laststatus =  3
+vim.o.showmode = false

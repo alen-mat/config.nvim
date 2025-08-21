@@ -48,7 +48,7 @@ local params = {
   -- },
 
   root_dir = function(fname)
-    return require("lspconfig").util.root_pattern("pom.xml", "gradle.build", ".git", "lsp.This")(fname) or
+    return require("lspconfig").util.root_pattern("pom.xml", "gradle.build")(fname) or
         vim.fn.getcwd()
   end,
 

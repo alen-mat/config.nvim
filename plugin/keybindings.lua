@@ -3,8 +3,8 @@
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'")
 vim.keymap.set('v', 'K', ":m '>-2<CR>gv=gv'")
@@ -23,9 +23,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>l', vim.diagnostic.setloclist)
 vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run)
-
-vim.keymap.set('n', '<space>|', vim.cmd.vsplit)
-vim.keymap.set('n', '<space>-', vim.cmd.split)
 
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- disble keys
