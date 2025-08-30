@@ -1,13 +1,4 @@
 return {
-  --Async Jobs
-  {
-    "skywind3000/asyncrun.vim",
-    opt = true,
-    cmd = {
-      "AsyncRun"
-    }
-  },
-
   {
     'rcarriga/nvim-notify',
     config = function()
