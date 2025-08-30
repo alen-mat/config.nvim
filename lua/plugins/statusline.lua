@@ -3,9 +3,9 @@ local client_lsp = require("My.utils").clients_lsp
 local clients_lsp_name = function()
   local client = client_lsp()
   if client == nil then
-    return '¯\\_(ツ)_/¯'
+    return '👀'
   else
-    return client.name
+    return    ' '
   end
 end
 
@@ -88,7 +88,6 @@ end
 add_left1('mode')
 add_left2({
   clients_lsp_name,
-  icon = ' ',
   color = { fg = '#ffffff', gui = 'bold' },
   cond = conditions.buffer_not_empty,
 })
@@ -103,22 +102,22 @@ add_left2({
   },
 })
 
-center_align()
-add_left3({
-  'filetype',
-  icon_only = true,
-  separator = '',
-  padding = {
-    right = 0,
-    left = 1
-  }
-})
-add_left3({
-  'filename',
-  path = 1,
-  file_status = true,
-  cond = conditions.buffer_not_empty,
-})
+-- center_align()
+-- add_left3({
+--   'filetype',
+--   icon_only = true,
+--   separator = '',
+--   padding = {
+--     right = 0,
+--     left = 1
+--   }
+-- })
+-- add_left3({
+--   'filename',
+--   path = 1,
+--   file_status = true,
+--   cond = conditions.buffer_not_empty,
+-- })
 
 add_right2({
   'diff',
@@ -135,6 +134,16 @@ add_right3('progress')
 add_right3('location')
 
 return {
-  'nvim-lualine/lualine.nvim',
-  opts = opts
+  {
+    'nvim-lualine/lualine.nvim',
+    opts = opts
+  },
+  {
+    'b0o/incline.nvim',
+    config = function()
+      require('incline').setup()
+    end,
+    -- Optional: Lazy load Incline
+    event = 'VeryLazy',
+  },
 }

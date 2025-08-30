@@ -1,8 +1,10 @@
 local utils = {}
 utils.show_in_popup = function(buf_text, opt)
-  if type(buf_text) == "string" then
-    buf_text = { buf_text }
+  local buf_lines = buf_text
+  if buf_text == 'string' then
+  buf_lines = vim.split(buf_text, '\n', { plain = true })
   end
+  print(buf_lines)
 
   local current_windows = vim.api.nvim_get_current_win()
   local win_width = vim.api.nvim_win_get_width(current_windows)
@@ -41,7 +43,8 @@ utils.show_in_popup = function(buf_text, opt)
     vim.api.nvim_win_close(win, true)
   end, { desc = 'Close window', silent = true, nowait = true, buffer = buf, noremap = true })
 
-  vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, buf_text)
+  vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, buf_lines)
+
   vim.bo[buf].readonly = true
   vim.opt_local.modifiable = false
 end
