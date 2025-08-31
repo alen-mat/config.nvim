@@ -37,6 +37,9 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 
+vim.wo.wrap = true 
+vim.opt.wrap = true
+
 vim.opt.scrolloff = 8
 vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*"
 
