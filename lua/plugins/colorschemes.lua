@@ -16,7 +16,7 @@ return {
     opts = {},
     enabled = false,
     config = function()
-       vim.cmd.colorscheme 'base16-tomorrow-night'
+      vim.cmd.colorscheme 'base16-tomorrow-night'
     end
   },
   {
@@ -26,8 +26,8 @@ return {
       -- custom options here
     },
     config = function(_, opts)
-       require("tokyodark").setup(opts) -- calling setup is optional
-       vim.cmd [[colorscheme tokyodark]]
+      require("tokyodark").setup(opts)  -- calling setup is optional
+      vim.cmd [[colorscheme tokyodark]]
     end,
   },
   {
@@ -39,6 +39,8 @@ return {
         -- optional configuration here
       }
       require('tairiki').load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
     end,
   }
 }
