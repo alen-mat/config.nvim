@@ -37,7 +37,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 
-vim.wo.wrap = true 
+vim.wo.wrap = true
 vim.opt.wrap = true
 
 vim.opt.scrolloff = 8
@@ -54,12 +54,12 @@ vim.o.conceallevel = 2
 --- LSP ---
 vim.diagnostic.config({
   -- update_in_insert = true,
-  virtual_lines = { only_current_line = true },
+  virtual_lines = { current_line = true },
   float = {
-    focusable = false,
+    focusable = true,
     style = "minimal",
     border = "rounded",
-    source = "always",
+    source = true,
     header = "",
     prefix = "",
   },

@@ -91,16 +91,14 @@ local basic_capabilities = vim.lsp.protocol.make_client_capabilities()
 basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('blink.cmp').get_lsp_capabilities())
 
 for server, config in pairs(servers) do
-  local params = {}
-
   if type(config) == "table" then
-    params = config.params or {}
+    local params = config.params or {}
+    params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
+    params.flags = vim.tbl_deep_extend('force', {}, flags, params.flags or {})
+    vim.lsp.config(server, params)
   end
 
-  params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
-  params.flags = vim.tbl_deep_extend('force', {}, flags, params.flags or {})
-  --setup.on_attach = server_on_attach
-  lsp_config[server].setup(params)
+  vim.lsp.enable(server)
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -141,7 +139,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
       require('telescope.builtin').lsp_outgoing_calls(require('telescope.themes').get_ivy({}))
     end, '[L]SP [O]utgoing [C]alls')
 
-    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+    nmap('K', function()
+      vim.lsp.buf.hover { border = "single", max_height = 25, max_width = 120 }
+    end, "Hover documentation")
     nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')

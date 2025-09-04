@@ -8,7 +8,6 @@ return {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
       -- Useful status updates for LSP
       {
         'j-hui/fidget.nvim',
