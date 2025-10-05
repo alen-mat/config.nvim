@@ -104,9 +104,8 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my-lsp-attach', { clear = true }),
   callback = function(event)
-    --require('vim.lsp.codelens.refresh')
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-
+    ---@diagnostic disable-next-line: undefined-field
     local nmap = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = event.buf, desc = 'LSP: ' .. desc })
     end
@@ -186,6 +185,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end
     end, { desc = 'Format current buffer with LSP' })
 
+    require("workspace-diagnostics").populate_workspace_diagnostics(client, event.buf)
     -- local config_override = server_config_override[client] or {}
     -- if (config_override.on_attach) then
     --   require(config_override).on_attach()

@@ -137,7 +137,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     event = "VeryLazy",
-    opts = opts
+    opts = opts,
   },
   {
     'b0o/incline.nvim',
@@ -158,16 +158,15 @@ return {
           if filename == '' then
             filename = '[No Name]'
           end
-          local modified = vim.bo[props.buf].modified
-          if modified then
-            filename = filename .. '[+]'
-          end
+          filename = filename..'/'..vim.bo[props.buf].filetype
+          local modified = vim.bo[props.buf].modified and '[+]' or ''
 
           return {
+            modified,
             ' ',
             ft_icon and { ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
             ' ',
-            { filename, gui = modified and 'bold,italic' or 'bold' },
+            { filename},
             ' ',
           }
         end,

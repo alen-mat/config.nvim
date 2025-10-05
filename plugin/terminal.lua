@@ -13,7 +13,7 @@ vim.keymap.set('n', '<Leader>st', function()
   vim.cmd([[botright new]])
   vim.cmd.wincmd('J')
   vim.cmd.term()
-end, { desc = 'Move focus to left pane' })
+end, { desc = 'Spawn new split terminl' })
 
 
 vim.keymap.set('t', '<A-h>', function()

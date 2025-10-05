@@ -1,5 +1,10 @@
 return {
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
+  },
+  {
     'rcarriga/nvim-notify',
     config = function()
       vim.notify = require("notify")
@@ -14,8 +19,6 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     config = function()
-      -- Gitsigns
-      -- See `:help gitsigns.txt`
       require('gitsigns').setup {
         signs = {
           add = { text = '+' },
@@ -24,6 +27,12 @@ return {
           topdelete = { text = '‾' },
           changedelete = { text = 'o' },
         },
+        status_formatter = function(status)
+          local added = status.added and status.added > 0 and "  " .. status.added or ""
+          local changed = status.changed and status.changed > 0 and "  " .. status.changed or ""
+          local removed = status.removed and status.removed > 0 and "  " .. status.removed or ""
+          return status.head .. added .. changed .. removed .. " "
+        end
       }
     end
   },
@@ -92,7 +101,7 @@ return {
     config = function()
       local nabla = require("nabla")
       nabla.enable_virt()
-      vim.keymap.set('n', '<leader>lp', nabla.popup , { desc = 'run file', silent = true })
+      vim.keymap.set('n', '<leader>lp', nabla.popup, { desc = 'run file', silent = true })
     end
   }
 }

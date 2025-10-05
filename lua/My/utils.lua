@@ -2,9 +2,8 @@ local utils = {}
 utils.show_in_popup = function(buf_text, opt)
   local buf_lines = buf_text
   if buf_text == 'string' then
-  buf_lines = vim.split(buf_text, '\n', { plain = true })
+    buf_lines = vim.split(buf_text, '\n', { plain = true })
   end
-  print(buf_lines)
 
   local current_windows = vim.api.nvim_get_current_win()
   local win_width = vim.api.nvim_win_get_width(current_windows)
@@ -49,7 +48,7 @@ utils.show_in_popup = function(buf_text, opt)
   vim.opt_local.modifiable = false
 end
 
-utils.out_in_pp = function(command, args)
+utils.out_in_pp = function(command, args, wdir)
   local state = {}
   local add_to_state = function(data)
     if not data then
@@ -74,7 +73,7 @@ utils.out_in_pp = function(command, args)
     message = "Initialising",
     lsp_client = { name = "[JOB]" },
   })
-  Job:new({
+  local job_opt = {
     command = command,
     args = args,
     on_start = function(j, return_val)
@@ -93,12 +92,16 @@ utils.out_in_pp = function(command, args)
         handle:finish()
         print("exit, exitcode:" .. vim.inspect(exitcode))
       end),
-  }):start()
+  }
+  if wdir ~= nil then
+    job_opt.cwd = wdir
+  end
+  Job:new(job_opt):start()
 end
 
 utils.clients_lsp = function()
   local bufnr = vim.api.nvim_get_current_buf()
-  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+  local buf_ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
   local clients = vim.lsp.get_clients({ bufnr = bufnr })
   if next(clients) == nil then
     return

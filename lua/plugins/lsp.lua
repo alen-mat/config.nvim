@@ -4,16 +4,15 @@ return {
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      'folke/neodev.nvim',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      -- Useful status updates for LSP
       {
         'j-hui/fidget.nvim',
         opts = {},
       },
-      'mfussenegger/nvim-jdtls'
+      'mfussenegger/nvim-jdtls',
+      'artemave/workspace-diagnostics.nvim',
     },
     config = function()
       if vim.opt.diff:get() then
