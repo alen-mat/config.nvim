@@ -9,8 +9,6 @@ require('mason').setup({
   }
 })
 
-local lsp_config         = require('lspconfig')
-
 local flags              = {
   allow_incremental_sync = true,
   debounce_text_changes = 200,
@@ -24,6 +22,7 @@ local servers            = {
   qmlls         = true,
   gopls         = true,
   vhdl_ls       = true,
+  ts_ls         = true,
   rust_analyzer = {
     settings = {
       ['rust-analyzer'] = {

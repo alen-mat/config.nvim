@@ -20,7 +20,7 @@ return {
     end
   },
   {
-    "tiagovla/tokyodark.nvim",
+   "tiagovla/tokyodark.nvim",
     enabled = false,
     opts = {
       -- custom options here

@@ -1,6 +1,5 @@
-local vimlsp = require("vim.lsp")
 local curl = require("plenary.curl")
-local inspect = require("My.utils.inspect")
+-- local inspect = require("My.utils.inspect")
 local utils = require("My.utils")
 print("starting")
 local M = {

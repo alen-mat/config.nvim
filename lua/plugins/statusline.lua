@@ -1,14 +1,5 @@
 local client_lsp = require("My.utils").clients_lsp
 
-local clients_lsp_name = function()
-  local client = client_lsp()
-  if client == nil then
-    return '👀'
-  else
-    return ' '
-  end
-end
-
 local conditions = {
   buffer_not_empty = function()
     return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
@@ -86,11 +77,6 @@ local function center_align()
 end
 
 add_left1('mode')
-add_left2({
-  clients_lsp_name,
-  color = { fg = '#ffffff', gui = 'bold' },
-  cond = conditions.buffer_not_empty,
-})
 add_left2({
   'diagnostics',
   sources = { 'nvim_diagnostic' },
