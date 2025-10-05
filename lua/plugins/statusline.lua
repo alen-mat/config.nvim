@@ -79,7 +79,7 @@ end
 add_left1('mode')
 add_left2({
   'diagnostics',
-  sources = { 'nvim_diagnostic' },
+  sources = { 'nvim_workspace_diagnostic' },
   symbols = { error = ' ', warn = ' ', info = ' ' },
   diagnostics_color = {
     color_error = { fg = colors.red },
@@ -132,6 +132,22 @@ return {
     config = function()
       local helpers = require 'incline.helpers'
       local devicons = require 'nvim-web-devicons'
+      local function get_diagnostic_label(props)
+        local icons = { error = '', warn = '', info = '', hint = '', }
+        local label = {}
+
+        for severity, icon in pairs(icons) do
+          local n = #vim.diagnostic.get(
+            props.buf,
+            { severity = vim.diagnostic.severity[string.upper(severity)] }
+          )
+          if n > 0 then
+            table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
+          end
+        end
+        if #label > 0 then table.insert(label, { "┊ " }) end
+        return label
+      end
       require('incline').setup {
         window = {
           padding = 0,
@@ -144,15 +160,16 @@ return {
           if filename == '' then
             filename = '[No Name]'
           end
-          filename = filename..'/'..vim.bo[props.buf].filetype
+          filename = filename .. '/' .. vim.bo[props.buf].filetype
           local modified = vim.bo[props.buf].modified and '[+]' or ''
 
           return {
             modified,
             ' ',
+            get_diagnostic_label(props),
             ft_icon and { ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
             ' ',
-            { filename},
+            { filename },
             ' ',
           }
         end,
