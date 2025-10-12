@@ -18,7 +18,7 @@ local servers            = {
   clangd        = true,
   pyright       = true,
   lua_ls        = true,
-  jdtls         = true, --require('My.lsp.jtdls'),
+  jdtls         = require('My.lsp.jtdls'),
   qmlls         = true,
   gopls         = true,
   vhdl_ls       = true,
@@ -91,7 +91,7 @@ basic_capabilities = vim.tbl_deep_extend('force', basic_capabilities, require('b
 
 for server, config in pairs(servers) do
   if type(config) == "table" then
-    local params = config.params or {}
+    local params = config or {}
     params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
     params.flags = vim.tbl_deep_extend('force', {}, flags, params.flags or {})
     vim.lsp.config(server, params)
@@ -109,7 +109,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set('n', keys, func, { noremap = true, silent = true, buffer = event.buf, desc = 'LSP: ' .. desc })
     end
 
-    nmap('<leader>lr', vim.lsp.buf.rename, '[R]e[n]ame')
     nmap('<leader>la', vim.lsp.buf.code_action, '[C]ode [A]ction')
     nmap('<space>ll', vim.lsp.codelens.run, '[Code] [L]ense')
     nmap("<leader>D", vim.diagnostic.open_float, '[V]iew [D]iagnostic')
@@ -145,23 +144,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
     nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 
-
-    nmap('<leader>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, '[W]orkspace [L]ist Folders')
-
-    if client and client.server_capabilities.documentHighlightProvider then
-      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        buffer = event.buf,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-        buffer = event.buf,
-        callback = vim.lsp.buf.clear_references,
-      })
-    end
-
     -- This may be unwanted, since they displace some of your code
     -- [Kick Start] see how theses goes
     if client then
@@ -183,6 +165,33 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.buf.formatting()
       end
     end, { desc = 'Format current buffer with LSP' })
+
+    if client then
+      if client.server_capabilities.documentHighlightProvider then
+        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+          buffer = event.buf,
+          callback = vim.lsp.buf.document_highlight,
+        })
+
+        vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+          buffer = event.buf,
+          callback = vim.lsp.buf.clear_references,
+        })
+      end
+
+      if client.supports_method("textDocument/hover", event.buf) or client.supports_method("textDocument/documentHighlight", event.buf) then
+        --gpanders mouse.fnl
+        nmap("<2-LeftMouse>", function()
+          local lb = event.buf
+          local mpos = vim.fn.getmousepos()
+          if lb == vim.api.nvim_win_get_buf(mpos.winid ) then
+            vim.uri_from_bufnr(mpos.winid)
+          end
+        end, "Mouse stuff")
+        --keymap :n "<2-LeftMouse>" #(mouse-hover buf client) {:buffer buf}))))))
+      end
+    end
+
 
     require("workspace-diagnostics").populate_workspace_diagnostics(client, event.buf)
     -- local config_override = server_config_override[client] or {}
