@@ -5,13 +5,13 @@ if vim.g.neovide ~= nil then
   -- else
   --   vim.opt.guifont = { "Source Code Pro", ":h9" }
   -- end
-  vim.opt.guifont = { "Source Code Pro", ":h9" }
+  vim.o.guifont = "JetBrains Mono:h8:i:#e-subpixelantialias:#h-none"
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
   local alpha = function()
     return string.format("%x", math.floor((255 * vim.g.transparency) or 0.8))
   end
-  vim.g.neovide_transparency = 0.8
+  vim.g.neovide_opacity = 0.8
   vim.g.transparency = 0.8
   vim.g.neovide_background_color = "#0f1117" .. alpha()
   vim.g.neovide_floating_blur_amount_x = 2.0
