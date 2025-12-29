@@ -23,7 +23,6 @@ if vim.g.neovide ~= nil then
   vim.g.neovide_confirm_quit = true
 end
 
-vim.o.hlsearch = false
 vim.wo.number = true
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
@@ -64,6 +63,10 @@ vim.diagnostic.config({
     prefix = "",
   },
 })
-
-vim.o.laststatus =  3
+if not vim.g.wezterm then
+  vim.o.laststatus = 3
+else
+  vim.o.laststatus = 0
+  vim.opt.cmdheight = 0
+end
 vim.o.showmode = false

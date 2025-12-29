@@ -140,5 +140,22 @@ utils.on_telescope = function(opts)
 end
 -- to execute the function
 
+utils.get_diagnostic_label = function(props)
+  local icons = { error = '', warn = '', info = '', hint = '', }
+  local label = {}
+
+  for severity, icon in pairs(icons) do
+    local n = #vim.diagnostic.get(
+      props.buf,
+      { severity = vim.diagnostic.severity[string.upper(severity)] }
+    )
+    if n > 0 then
+      table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
+    end
+  end
+  if #label > 0 then table.insert(label, { "┊ " }) end
+  return label
+end
+
 return utils
 -- vim: ts=2 sts=2 sw=2 et

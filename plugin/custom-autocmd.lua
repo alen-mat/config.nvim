@@ -57,3 +57,30 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.lsp.buf.format { async = false }
   end
 })
+
+--https://www.reddit.com/r/neovim/comments/1i2xw2m/share_your_favorite_autocmds/
+vim.api.nvim_set_hl(0, "DimInactiveWindows", { fg = "#666666", default = true })
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+  group = vim.api.nvim_create_augroup("hl_toggle", { clear = true }),
+  callback = function()
+    local ft = vim.bo.filetype
+    if ft == "telescope" then
+      return
+    end
+    local highlights = {}
+    for hl, _ in pairs(vim.api.nvim_get_hl(0, {})) do
+      table.insert(highlights, hl .. ":DimInactiveWindows")
+    end
+    vim.wo.winhighlight = table.concat(highlights, ",")
+  end,
+})
+vim.api.nvim_create_autocmd({ "WinEnter" }, {
+  group = vim.api.nvim_create_augroup("hl_toggle", { clear = true }),
+  callback = function()
+    vim.wo.winhighlight = ""
+  end,
+})
+
+if vim.g.wezterm then
+  require('My.statusline').init()
+end

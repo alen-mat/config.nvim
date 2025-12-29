@@ -1,3 +1,4 @@
+local utils = require("My.utils")
 local client_lsp = require("My.utils").clients_lsp
 
 local conditions = {
@@ -123,6 +124,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     event = "VeryLazy",
+    enabled = not vim.g.wezterm,
     opts = opts,
   },
   {
@@ -132,22 +134,6 @@ return {
     config = function()
       local helpers = require 'incline.helpers'
       local devicons = require 'nvim-web-devicons'
-      local function get_diagnostic_label(props)
-        local icons = { error = '', warn = '', info = '', hint = '', }
-        local label = {}
-
-        for severity, icon in pairs(icons) do
-          local n = #vim.diagnostic.get(
-            props.buf,
-            { severity = vim.diagnostic.severity[string.upper(severity)] }
-          )
-          if n > 0 then
-            table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
-          end
-        end
-        if #label > 0 then table.insert(label, { "┊ " }) end
-        return label
-      end
       require('incline').setup {
         window = {
           padding = 0,
@@ -160,13 +146,12 @@ return {
           if filename == '' then
             filename = '[No Name]'
           end
-          filename = filename .. '/' .. vim.bo[props.buf].filetype
           local modified = vim.bo[props.buf].modified and '[+]' or ''
 
           return {
             modified,
             ' ',
-            get_diagnostic_label(props),
+            utils.get_diagnostic_label(props),
             ft_icon and { ft_icon, ' ', guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or '',
             ' ',
             { filename },

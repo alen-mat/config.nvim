@@ -184,7 +184,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         nmap("<2-LeftMouse>", function()
           local lb = event.buf
           local mpos = vim.fn.getmousepos()
-          if lb == vim.api.nvim_win_get_buf(mpos.winid ) then
+          if lb == vim.api.nvim_win_get_buf(mpos.winid) then
             vim.uri_from_bufnr(mpos.winid)
           end
         end, "Mouse stuff")
@@ -192,8 +192,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end
     end
 
+    vim.api.nvim_buf_create_user_command(event.buf, 'GenWorkSpaceDiagnostics', function(_)
+      require("workspace-diagnostics").populate_workspace_diagnostics(client, event.buf)
+    end, { desc = 'Format current buffer with LSP' })
 
-    require("workspace-diagnostics").populate_workspace_diagnostics(client, event.buf)
     -- local config_override = server_config_override[client] or {}
     -- if (config_override.on_attach) then
     --   require(config_override).on_attach()
