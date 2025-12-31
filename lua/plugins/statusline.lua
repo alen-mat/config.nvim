@@ -123,13 +123,13 @@ add_right3('location')
 return {
   {
     'nvim-lualine/lualine.nvim',
-    event = "VeryLazy",
-    enabled = not vim.g.wezterm,
+    event = "User DrawNativeStatus",
     opts = opts,
   },
   {
     'b0o/incline.nvim',
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- event = 'VeryLazy',
     event = 'VeryLazy',
     config = function()
       local helpers = require 'incline.helpers'

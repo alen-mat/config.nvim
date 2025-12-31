@@ -81,6 +81,3 @@ vim.api.nvim_create_autocmd({ "WinEnter" }, {
   end,
 })
 
-if vim.g.wezterm then
-  require('My.statusline').init()
-end

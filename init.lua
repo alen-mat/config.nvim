@@ -1,11 +1,8 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+require('My.preload')
 -- Install lazy
-local term_prg = os.getenv("TERM_PROGRAM")
-if term_prg and term_prg == 'WezTerm' then
-  vim.g.wezterm = true
-end
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

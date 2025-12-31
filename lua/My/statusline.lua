@@ -120,7 +120,7 @@ M.git = function()
     pattern = 'GitSignsUpdate',
     group = M.augroup,
     callback = function(args)
-      if args.data and vim.b[args.data.buffer] then
+      if args.data and vim.b[args.data.buffer] and vim.b[args.data.buffer].gitsigns_status_dict then
         local git_status_dict = vim.b[args.data.buffer].gitsigns_status_dict
         local added = (git_status_dict.added and git_status_dict.added ~= 0) and ("  " .. git_status_dict.added) or ""
         local changed = (git_status_dict.changed and git_status_dict.changed ~= 0) and ("  " .. git_status_dict.changed) or ""

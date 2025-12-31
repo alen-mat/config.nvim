@@ -1,4 +1,4 @@
-if vim.g.neovide ~= nil then
+if vim.g.neovide then
   vim.g.neovide_refresh_rate_idle = 5
   -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
   --   vim.opt.guifont = { "Source Code Pro", ":h12" }
@@ -63,10 +63,16 @@ vim.diagnostic.config({
     prefix = "",
   },
 })
-if not vim.g.wezterm then
-  vim.o.laststatus = 3
-else
+vim.o.showmode = false
+
+if os.getenv("TERM_PROGRAM") == "WezTerm" and (not vim.g.neovide) then
   vim.o.laststatus = 0
   vim.opt.cmdheight = 0
+  require('My.statusline').init()
+else
+  vim.o.laststatus = 3
+  vim.api.nvim_exec_autocmds("User", {
+    pattern = "DrawNativeStatus",
+    data = {}, -- delivered to the callback as args.data
+  })
 end
-vim.o.showmode = false
