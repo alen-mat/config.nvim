@@ -1,11 +1,10 @@
 if vim.g.neovide then
   vim.g.neovide_refresh_rate_idle = 5
-  -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
-  --   vim.opt.guifont = { "Source Code Pro", ":h12" }
-  -- else
-  --   vim.opt.guifont = { "Source Code Pro", ":h9" }
-  -- end
-  vim.o.guifont = "JetBrains Mono:h8:i:#e-subpixelantialias:#h-none"
+  if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+    vim.o.guifont = "JetBrains Mono:h11:i:#e-subpixelantialias:#h-none"
+  else
+    vim.o.guifont = "JetBrains Mono:h8:i:#e-subpixelantialias:#h-none"
+  end
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
   local alpha = function()
