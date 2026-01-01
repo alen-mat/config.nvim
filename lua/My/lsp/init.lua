@@ -1,4 +1,5 @@
 ---@diagnostic disable-next-line: missing-fields
+local local_lsp_conf = require('My.preload').conf.lsp or {}
 require('mason').setup({
   ui = {
     icons = {
@@ -64,7 +65,6 @@ local servers            = {
       syntaxDocumentation = { enable = true },
     },
   }
-
 }
 
 local servers_to_install = vim.tbl_filter(function(key)
@@ -94,6 +94,12 @@ for server, config in pairs(servers) do
     local params = config or {}
     params.capabilities = vim.tbl_deep_extend('force', {}, basic_capabilities, params.capabilities or {})
     params.flags = vim.tbl_deep_extend('force', {}, flags, params.flags or {})
+    if local_lsp_conf[server] then
+      params.capabilities = vim.tbl_deep_extend('force', {}, params.capabilities,
+        local_lsp_conf[server].capabilities or {})
+      params.flags = vim.tbl_deep_extend('force', {}, params.flags, local_lsp_conf[server].flags or {})
+      params.settings = vim.tbl_deep_extend('force', {}, params.settings, local_lsp_conf[server].settings or {})
+    end
     vim.lsp.config(server, params)
   end
 
