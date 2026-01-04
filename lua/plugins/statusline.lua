@@ -101,11 +101,17 @@ center_align()
 -- })
 add_left3(
   function()
+    local cwd =  vim.loop.cwd()
+    local pre = ''
+    local pth
     if vim.bo.filetype == 'oil' then
-      return ':: '..require('oil').get_current_dir()
+      pth = require('oil').get_current_dir()
+      pre = 'Oil::'
     else
-      return vim.loop.cwd()
+      pth = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':p:h')
     end
+    local limited_s, count = string.gsub(pth, cwd, '[$pwd]')
+    return pre..limited_s
   end)
 
 add_right2({
