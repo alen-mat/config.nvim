@@ -89,7 +89,7 @@ add_left2({
   },
 })
 
--- center_align()
+center_align()
 -- add_left3({
 --   'filetype',
 --   icon_only = true,
@@ -99,12 +99,14 @@ add_left2({
 --     left = 1
 --   }
 -- })
--- add_left3({
---   'filename',
---   path = 1,
---   file_status = true,
---   cond = conditions.buffer_not_empty,
--- })
+add_left3(
+  function()
+    if vim.bo.filetype == 'oil' then
+      return ':: '..require('oil').get_current_dir()
+    else
+      return vim.loop.cwd()
+    end
+  end)
 
 add_right2({
   'diff',
@@ -146,8 +148,11 @@ return {
           if filename == '' then
             filename = '[No Name]'
           end
+          if vim.bo.filetype == 'oil' then
+            ft_icon, ft_color = '', '#AC6790'
+            filename = 'Oil'
+          end
           local modified = vim.bo[props.buf].modified and '[+]' or ''
-
           return {
             modified,
             ' ',
