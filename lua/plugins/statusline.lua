@@ -103,10 +103,12 @@ add_left3(
   function()
     local cwd =  vim.loop.cwd()
     local pre = ''
-    local pth
+    local pth = ''
     if vim.bo.filetype == 'oil' then
-      pth = require('oil').get_current_dir()
+      pth = require('oil').get_current_dir() or ''
       pre = 'Oil::'
+    elseif vim.bo.filetype == 'TelescopePrompt' then
+      pre = '::Telescope::'
     else
       pth = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':p:h')
     end
