@@ -22,7 +22,7 @@ vim.keymap.set('n', '[d', function() vim.diagnostic.jump({ count = -1 }) end)
 vim.keymap.set('n', ']d', function() vim.diagnostic.jump({ count = 1 }) end)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>l', vim.diagnostic.setloclist)
-vim.keymap.set('n', '<space>cl', vim.lsp.codelens.run)
+vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run)
 
 vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- disble keys

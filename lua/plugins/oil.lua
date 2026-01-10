@@ -4,22 +4,23 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("oil").setup {
-        columns = { "icon" },
+        columns = {
+          "icon",
+          "permissions",
+          "size",
+          "mtime",
+        },
         keymaps = {
           ["<C-h>"] = "actions.select_split",
           ["<C-p>"] = "actions.preview",
+          ["g."] = { "actions.toggle_hidden", mode = "n" },
         },
         view_options = {
           show_hidden = true,
         },
       }
 
+      vim.keymap.set("n", "<leader>0", "<CMD>Oil<CR>")
     end,
-  },
-{ 'echasnovski/mini.files', version = false,
-    config = function ()
-      require('mini.files').setup()
-      vim.keymap.set("n", "<leader>0", require("mini.files").open)
-    end
   },
 }
