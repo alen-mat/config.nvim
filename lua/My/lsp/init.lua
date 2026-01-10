@@ -30,9 +30,8 @@ local servers            = {
         cargo = {
           allFeatures = true,
         },
-        checkOnSave = {
-          allFeatures = true,
-          command = 'clippy',
+        initialization_options = {
+          check = { command = "clippy" }
         },
         procMacro = {
           ignored = {
