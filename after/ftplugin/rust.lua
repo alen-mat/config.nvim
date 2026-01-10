@@ -5,6 +5,6 @@ local utils = require("My.utils")
 vim.keymap.set('n', '<F10>', function()
   local client = utils.clients_lsp()
   if client then
-    utils.out_in_pp("cargo", {"run"},client.config.root_dir)
+    utils.out_in_pp("cargo", {"build"}, client.config.root_dir)
   end
-end, { desc = 'run file', silent = true })
+end, { desc = 'Build Project', silent = true })
