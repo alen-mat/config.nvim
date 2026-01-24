@@ -1,7 +1,7 @@
 return {
   settings = {
-    ['java.format.settings.url'] = vim.fn.getenv("HOME") .. "/.config/nvim/language-servers/java-google-formatter.xml",
-    ['java.format.settings.profile'] = "GoogleStyle",
+    -- ['java.format.settings.url'] = vim.fn.getenv("HOME") .. "/.config/nvim/language-servers/java-google-formatter.xml",
+    -- ['java.format.settings.profile'] = "GoogleStyle",
     java = {
       signatureHelp = { enabled = true },
       contentProvider = { preferred = 'fernflower' },

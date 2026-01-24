@@ -28,3 +28,5 @@ end, { desc = 'Move focus to top pane' })
 vim.keymap.set('t', '<A-l>', function()
   vim.cmd.wincmd('l')
 end, { desc = 'Move focus to right pane' })
+
+-- vim: ts=2 sts=2 sw=2 et
