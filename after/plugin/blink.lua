@@ -69,7 +69,13 @@ require('blink.cmp').setup {
     }
   },
   signature = { enabled = true },
-  fuzzy = { implementation = "prefer_rust_with_warning" },
+  fuzzy = {
+    prebuilt_binaries = {
+      download = true,
+      force_version = 'v1.8.0'
+    },
+    implementation = "prefer_rust_with_warning",
+  },
 }
 
 local local_lsp_conf = require('My.preload').conf.lsp or {}
