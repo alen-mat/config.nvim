@@ -35,6 +35,9 @@ vim.opt.statuscolumn = "%s%=%l%{%&nu||&rnu?'%#WinSeparator#│':''%}"
 vim.opt.statusline = "%{%v:lua.require'statusline'.statusline()%}"
 vim.opt.tabline    = "%!v:lua.require'statusline'.tabline()"
 
+vim.cmd([[
+  amenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>
+]])
 if os.getenv("TERM_PROGRAM") == "WezTerm" and (not vim.g.neovide) then
   -- vim.o.laststatus = 0
   -- vim.opt.cmdheight = 0
