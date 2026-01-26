@@ -24,6 +24,7 @@ vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store
 vim.o.cursorline = true
 vim.api.nvim_set_hl(0, 'CursorLine', {})
 vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
+vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = "#3b4252" })
 
 vim.o.completeopt = 'menu,menuone,popup,noselect,noinsert,fuzzy,preview'
 vim.o.conceallevel = 2
