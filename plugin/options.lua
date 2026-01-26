@@ -35,9 +35,10 @@ vim.opt.statuscolumn = "%s%=%l%{%&nu||&rnu?'%#WinSeparator#│':''%}"
 vim.opt.statusline = "%{%v:lua.require'statusline'.statusline()%}"
 vim.opt.tabline    = "%!v:lua.require'statusline'.tabline()"
 
-vim.cmd([[
-  vmenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>
-]])
+vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
+vim.cmd([[aunmenu PopUp.-2-]])
+vim.cmd([[vmenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>]])
+
 if os.getenv("TERM_PROGRAM") == "WezTerm" and (not vim.g.neovide) then
   -- vim.o.laststatus = 0
   -- vim.opt.cmdheight = 0
