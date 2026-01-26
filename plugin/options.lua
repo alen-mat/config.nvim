@@ -36,7 +36,7 @@ vim.opt.statusline = "%{%v:lua.require'statusline'.statusline()%}"
 vim.opt.tabline    = "%!v:lua.require'statusline'.tabline()"
 
 vim.cmd([[
-  amenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>
+  vmenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>
 ]])
 if os.getenv("TERM_PROGRAM") == "WezTerm" and (not vim.g.neovide) then
   -- vim.o.laststatus = 0
@@ -60,7 +60,7 @@ if vim.g.neovide then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
   local alpha = function()
-    return string.format("%x", math.floor((255 * vim.g.transparency) or 0.8))
+    return string.format("%x", math.floor((255 * vim.g.transparency) or 0.4))
   end
   vim.g.neovide_opacity = 0.8
   vim.g.transparency = 0.8
