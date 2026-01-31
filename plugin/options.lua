@@ -25,6 +25,8 @@ vim.o.cursorline = true
 vim.api.nvim_set_hl(0, 'CursorLine', {})
 vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
 vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = "#3b4252" })
+vim.api.nvim_set_hl(0, 'Bold', { bold = true })
+vim.api.nvim_set_hl(0, 'Folded', {bg='Black',fg = 'LightGrey'})
 
 vim.o.completeopt = 'menu,menuone,popup,noselect,noinsert,fuzzy,preview'
 vim.o.conceallevel = 2
@@ -38,6 +40,11 @@ vim.opt.tabline    = "%!v:lua.require'statusline'.tabline()"
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-2-]])
 vim.cmd([[vmenu <silent> PopUp.Open\ File :lua require('My.helpers').open_visual_selection()<CR>]])
+
+vim.opt.foldtext = ''
+vim.opt.fillchars:append({
+  fold = '-'
+})
 
 if os.getenv("TERM_PROGRAM") == "WezTerm" and (not vim.g.neovide) then
   -- vim.o.laststatus = 0
