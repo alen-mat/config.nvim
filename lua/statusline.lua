@@ -23,6 +23,21 @@ local function diagnostics()
     return string.format("E: %d W: %d ", num_errors, num_warnings)
   end
 end
+local function path1()
+  local cwd = vim.loop.cwd()
+  local pre = ''
+  local pth = ''
+  if vim.bo.filetype == 'oil' then
+    pth = require('oil').get_current_dir() or ''
+    pre = 'Oil::'
+  elseif vim.bo.filetype == 'TelescopePrompt' then
+    pre = '::Telescope::'
+  else
+    pth = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':p:h')
+  end
+  local limited_s, count = string.gsub(pth, cwd, '[$pwd]')
+  return pre .. limited_s
+end
 
 local function filename(buf, fancy)
   local name = vim.api.nvim_buf_get_name(buf)
@@ -83,8 +98,11 @@ local function statusline()
   local fancy = curwin and not term
 
   local items = {
+    '[' .. vim.api.nvim_get_mode().mode .. ']',
     vim.v.this_session ~= "" and " $" or "",
-    filename(buf, fancy),
+    "%=",
+    -- filename(buf, fancy),
+    path1(),
     vim.bo[buf].readonly and "%r " or "",
     vim.wo.previewwindow and "%w " or "",
     "%=",
