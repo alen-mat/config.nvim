@@ -2,8 +2,8 @@ M = {}
 
 M.open_visual_selection =function()
  -- get visual selection
-  local _, ls, cs = unpack(vim.fn.getpos("'<"))
-  local _, le, ce = unpack(vim.fn.getpos("'>"))
+  local _, ls, cs = table.unpack(vim.fn.getpos("'<"))
+  local _, le, ce = table.unpack(vim.fn.getpos("'>"))
 
   local lines = vim.fn.getline(ls, le)
   if #lines == 0 then return end
