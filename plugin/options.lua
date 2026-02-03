@@ -22,11 +22,7 @@ vim.opt.scrolloff = 8
 vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*"
 
 vim.o.cursorline = true
-vim.api.nvim_set_hl(0, 'CursorLine', {})
-vim.api.nvim_set_hl(0, 'cursorlinenr', { bold = true })
-vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = "#3b4252" })
-vim.api.nvim_set_hl(0, 'Bold', { bold = true })
-vim.api.nvim_set_hl(0, 'Folded', {bg='Black',fg = 'LightGrey'})
+vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = '#61276b'})
 
 vim.o.completeopt = 'menu,menuone,popup,noselect,noinsert,fuzzy,preview'
 vim.o.conceallevel = 2
