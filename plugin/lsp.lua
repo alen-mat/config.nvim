@@ -1,4 +1,3 @@
-
 local function on_init(client, result)
   if client:supports_method("textDocument/signatureHelp") then
     client.server_capabilities.signatureHelpProvider.triggerCharacters = {}
@@ -23,6 +22,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>la', vim.lsp.buf.code_action, '[C]ode [A]ction')
     nmap('<space>ll', vim.lsp.codelens.run, '[Code] [L]ense')
     nmap("<leader>D", vim.diagnostic.open_float, '[V]iew [D]iagnostic')
+
+    vim.keymap.set('n', '<leader>sd', function()
+      require('telescope.builtin').diagnostics(require('telescope.themes').get_ivy())
+    end, { desc = '[S]earch [D]iagnostics' })
 
     nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 

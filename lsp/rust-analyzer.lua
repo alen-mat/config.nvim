@@ -1,7 +1,7 @@
 return {
   filetypes = { "rust" },
   root_markers = { "Cargo.toml" },
-  cmd = {"/home/alen/.local/share/cargo/bin/rust-analyzer"},
+  cmd = {vim.fn.getenv("HOME").."/.local/share/cargo/bin/rust-analyzer"},
   settings = {
     ['rust-analyzer'] = {
       cargo = {

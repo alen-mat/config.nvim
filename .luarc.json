@@ -1,9 +1,8 @@
 {
-    "workspace.library": [
-        "${3rd}/luv/library",
-	"/usr/share/nvim/runtime/"
-    ],
-    "diagnostics.disable": [
-        "param-type-mismatch"
-    ]
+  "workspace.library": [
+    "${3rd}/luv/library",
+    "/usr/share/nvim/runtime/"
+  ],
+  "diagnostics.disable": [
+  ]
 }

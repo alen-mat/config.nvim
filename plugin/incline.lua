@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     end
   end
 })
-vim.api.nvim_create_autocmd("WinNew", {
+vim.api.nvim_create_autocmd({ "WinNew","WinEnter" }, {
   group = window_group,
   callback = function(ev)
     local current_bufnr = ev.buf
@@ -79,6 +79,5 @@ vim.api.nvim_create_autocmd("WinResized", {
     end
     vim.api.nvim_set_current_win(current_win)
   end,
-  -- You can add specific patterns/filters if needed
 })
 -- vim: ts=2 sts=2 sw=2 et
