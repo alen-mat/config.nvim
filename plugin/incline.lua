@@ -3,12 +3,12 @@ local window_group = vim.api.nvim_create_augroup("WindowEvents", { clear = true 
 ---@type table<number, { win: number, config:vim.api.keyset.win_config }>
 local cache = {}
 
-vim.api.nvim_create_autocmd('BufWinEnter', {
+vim.api.nvim_create_autocmd({ 'BufWinEnter', "TextChanged", "TextChangedI" }, {
   group = window_group,
   callback = function(ev)
     local current_win = vim.api.nvim_get_current_win()
-    local file_name = vim.fn.fnamemodify(ev.file, ":t")
     if cache[current_win] then
+      local file_name = vim.fn.fnamemodify(ev.file, ":t")
       local title_buff = vim.api.nvim_win_get_buf(cache[current_win].win)
       vim.api.nvim_buf_set_lines(title_buff, 0, -1, true, { file_name })
       cache[current_win].config.width = #file_name + 2
@@ -17,7 +17,8 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     end
   end
 })
-vim.api.nvim_create_autocmd({ "WinNew","WinEnter" }, {
+
+vim.api.nvim_create_autocmd({ "WinNew", "WinEnter" }, {
   group = window_group,
   callback = function(ev)
     local current_bufnr = ev.buf
@@ -58,7 +59,7 @@ vim.api.nvim_create_autocmd({ "WinNew","WinEnter" }, {
 vim.api.nvim_create_autocmd("WinClosed", {
   group = window_group,
   callback = function(ev)
-    local current_win = vim.api.nvim_get_current_win()
+    local current_win =  tonumber(ev.match)
     if cache[current_win] then
       vim.api.nvim_win_close(cache[current_win].win, false)
       cache[current_win] = nil
