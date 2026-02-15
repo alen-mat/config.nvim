@@ -35,7 +35,9 @@ local function path1()
   else
     pth = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':p:h')
   end
-  local limited_s, count = string.gsub(pth, cwd, '[$pwd]')
+
+  local escaped_cwd = cwd:gsub("([^%w])", "%%%1")
+  local limited_s, count = pth:gsub(escaped_cwd, "[$pwd]")
   return pre .. limited_s
 end
 
