@@ -29,15 +29,16 @@ local function path1()
   local pth = ''
   if vim.bo.filetype == 'oil' then
     pth = require('oil').get_current_dir() or ''
-    pre = 'Oil::'
   elseif vim.bo.filetype == 'TelescopePrompt' then
-    pre = '::Telescope::'
+    local picker = require("telescope.actions.state").get_current_picker(vim.api.nvim_get_current_buf())
+    pth = picker.prompt_title
   else
     pth = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':p:h')
   end
 
-  local escaped_cwd = cwd:gsub("([^%w])", "%%%1")
-  local limited_s, count = pth:gsub(escaped_cwd, "[$pwd]")
+  local escaped_cwd = vim.pesc(cwd or '')
+  local limited_s, count = pth:gsub(escaped_cwd, "")
+  limited_s = limited_s:gsub("^/", "", 1)
   return pre .. limited_s
 end
 
@@ -100,9 +101,8 @@ local function statusline()
   local fancy = curwin and not term
 
   local items = {
-    '[' .. vim.api.nvim_get_mode().mode .. ']',
+    '[' .. vim.api.nvim_get_mode().mode .. '] ',
     vim.v.this_session ~= "" and " $" or "",
-    "%=",
     -- filename(buf, fancy),
     path1(),
     vim.bo[buf].readonly and "%r " or "",
