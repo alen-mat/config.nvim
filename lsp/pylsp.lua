@@ -1,5 +1,5 @@
 return {
-  cmd = { 'pyls' },
+  cmd = { 'pylsp' },
   filetypes = { 'python' },
   root_markers = {
     'pyproject.toml',

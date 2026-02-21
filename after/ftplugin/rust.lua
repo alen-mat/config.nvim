@@ -1,6 +1,6 @@
 vim.opt_local.formatoptions:remove "o"
 
-local utils = require("My.utils")
+local utils = require("utils")
 
 vim.keymap.set('n', '<F10>', function()
   local client = utils.clients_lsp()

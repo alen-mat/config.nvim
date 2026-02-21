@@ -78,7 +78,7 @@ require('blink.cmp').setup {
   },
 }
 
-local local_lsp_conf = require('My.preload').conf.lsp or {}
+local local_lsp_conf = require('preload').conf.lsp or {}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities       = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities({}, false))

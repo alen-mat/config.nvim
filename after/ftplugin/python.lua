@@ -14,7 +14,7 @@ vim.bocolorcolumn = 100
 --nnoremap <buffer><silent> <space>pm <cmd>Pytest method<CR>
 --nnoremap <buffer><silent> <space>ps <cmd>Pytest session<CR>
 
-local out_in_pp = require("My.utils").out_in_pp
+local out_in_pp = require("utils").out_in_pp
 vim.keymap.set('n', '<F5>', function()
   out_in_pp("python",{ "-u", vim.fn.expand('%') })
 end, { desc = 'run file', silent = true })

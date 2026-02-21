@@ -2,7 +2,7 @@ vim.bo.shiftwidth = 2
 vim.bo.softtabstop = 2
 vim.bo.tabstop = 2
 
-local utils = require("My.utils")
+local utils = require("utils")
 
 vim.keymap.set('n', '<F5>', function()
   local client = utils.clients_lsp()

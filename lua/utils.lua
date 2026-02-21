@@ -88,9 +88,8 @@ utils.out_in_pp = function(command, args, wdir)
     on_exit = vim.schedule_wrap(
       function(j, exitcode)
         utils.show_in_popup(state)
-        handle.message = "Done"
+        handle.message = "Done!! exitcode:" .. vim.inspect(exitcode)
         handle:finish()
-        print("exit, exitcode:" .. vim.inspect(exitcode))
       end),
   }
   if wdir ~= nil then

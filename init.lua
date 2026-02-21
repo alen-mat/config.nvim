@@ -1,4 +1,4 @@
-require('My.preload').init()
+require('preload').init()
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
