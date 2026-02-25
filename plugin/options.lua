@@ -33,9 +33,21 @@ vim.opt.statuscolumn = "%s%=%l%{%&nu||&rnu?'%#WinSeparator#│':''%}"
 vim.opt.statusline = "%{%v:lua.require'statusline'.statusline()%}"
 vim.opt.tabline    = "%!v:lua.require'statusline'.tabline()"
 
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax enable")
 vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-2-]])
 vim.cmd([[vmenu <silent> PopUp.Open\ File :lua require('helpers').open_visual_selection()<CR>]])
+
+vim.g.markdown_fenced_languages = {
+  "python",
+  "bash=sh",
+  "javascript",
+  "js=javascript",
+  "json=javascript",
+  "typescript",
+  "ts=typescript",
+}
 
 vim.opt.foldtext = ''
 vim.opt.fillchars:append({
