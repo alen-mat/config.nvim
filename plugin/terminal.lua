@@ -1,9 +1,12 @@
 vim.api.nvim_create_autocmd('TermOpen', {
   group = vim.api.nvim_create_augroup('term--open', { clear = true }),
-  callback = function(args)
-    vim.opt_local.relativenumber = false
-    vim.opt_local.number = false
-    vim.opt_local.scrolloff = 0
+  callback = function()
+    vim.wo.scrolloff = 0
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.wo.statuscolumn = ""
+    vim.wo.signcolumn = "no"
+    vim.opt.listchars = { space = " " }
   end,
 })
 
@@ -12,7 +15,7 @@ vim.keymap.set('t', '<Leader><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode
 vim.keymap.set('n', '<Leader>st', function()
   vim.cmd([[botright new]])
   vim.cmd.wincmd('J')
-  vim.cmd.term()
+  vim.cmd.term('fish')
 end, { desc = 'Spawn new split terminl' })
 
 
