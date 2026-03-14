@@ -3,6 +3,19 @@ if vim.fn.executable("rg") == 1 then
 end
 
 vim.wo.number = true
+vim.opt.textwidth = 80
+vim.opt.colorcolumn = '81'
+vim.o.confirm = true
+vim.o.breakindent = true
+vim.o.cursorlineopt = 'number'
+vim.o.jumpoptions='view'
+vim.o.foldlevelstart = 99 -- maybe not
+vim.opt.linebreak = true
+vim.opt.list = true
+vim.opt.listchars:append({
+  precedes = "<",
+  extends = ">"
+})
 vim.o.relativenumber = true
 vim.o.mouse = 'a'
 vim.o.breakindent = true
@@ -14,6 +27,12 @@ vim.o.incsearch = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
+vim.opt.pumheight = 10
+vim.opt.pumblend = 0
+vim.opt.pumborder = "rounded"
+vim.opt.winborder = "rounded"
+vim.opt.smoothscroll = true
+vim.opt.splitright = true
 
 vim.wo.wrap = true
 vim.opt.wrap = true
@@ -22,7 +41,6 @@ vim.opt.scrolloff = 8
 vim.opt.wildignore = vim.opt.wildignore + "*.so,*~,*/.git/*,*/.svn/*,*/.DS_Store,*/tmp/*"
 
 vim.o.cursorline = true
-vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = '#61276b'})
 
 vim.o.completeopt = 'menu,menuone,popup,noselect,noinsert,fuzzy,preview'
 vim.o.conceallevel = 2
@@ -39,6 +57,7 @@ vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-2-]])
 vim.cmd([[vmenu <silent> PopUp.Open\ File :lua require('helpers').open_visual_selection()<CR>]])
 
+vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = '#61276b'})
 vim.g.markdown_fenced_languages = {
   "python",
   "bash=sh",

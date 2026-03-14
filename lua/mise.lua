@@ -25,6 +25,7 @@ M.run = function()
     end,
     on_stderr = function(_, data)
       print('Mise : Errored')
+      print(data)
     end,
     on_exit = vim.schedule_wrap(
       function(j, exitcode)

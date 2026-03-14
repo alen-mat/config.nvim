@@ -9,12 +9,28 @@ vim.o.sidescroll = 5
 vim.o.sidescrolloff = 2
 vim.bocolorcolumn = 100
 
---nnoremap <buffer><silent> <space>pf <cmd>Pytest file<CR>
---nnoremap <buffer><silent> <space>pc <cmd>Pytest function<CR>
---nnoremap <buffer><silent> <space>pm <cmd>Pytest method<CR>
---nnoremap <buffer><silent> <space>ps <cmd>Pytest session<CR>
-
 local out_in_pp = require("utils").out_in_pp
 vim.keymap.set('n', '<F5>', function()
   out_in_pp("python",{ "-u", vim.fn.expand('%') })
 end, { desc = 'run file', silent = true })
+
+-- Run when an LSP attaches
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
+
+    -- Check if LSP supports formatting
+    if client and client:supports_method("textDocument/formatting") then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+            id = client.id,
+          })
+        end,
+      })
+    end
+  end,
+})
