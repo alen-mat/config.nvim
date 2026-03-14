@@ -20,7 +20,7 @@ local plugin_config = {
   mccabe = { enabled = false },
   autopep8 = { enabled = true},
   isort = { enabled = true, },
-
+  jedi={extra_paths = {"src"}}
 }
 for pn, pc in pairs(plugin_config) do
   -- if vim.fn.exepath(pn) then
