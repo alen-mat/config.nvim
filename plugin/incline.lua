@@ -45,6 +45,7 @@ vim.api.nvim_create_autocmd({ "WinNew", "WinEnter" }, {
         mouse = false,
         noautocmd = true,
         win = current_win,
+        border = "none",
       }
       local winnr = vim.api.nvim_open_win(bufnr, 0, config)
       vim.api.nvim_set_option_value('number', false, { scope = 'local', win = winnr })

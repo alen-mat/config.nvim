@@ -1,13 +1,10 @@
 vim.bo.expandtab = true
-vim.o.smarttab = true
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 vim.bo.softtabstop = 4
 
-vim.wo.wrap = false
-vim.o.sidescroll = 5
-vim.o.sidescrolloff = 2
-vim.bocolorcolumn = 100
+vim.opt_local.textwidth = 79
+vim.opt_local.colorcolumn = "80"
 
 local out_in_pp = require("utils").out_in_pp
 vim.keymap.set('n', '<F5>', function()
