@@ -17,10 +17,16 @@ local base_config = {
 }
 local plugin_config = {
   mypy = { enabled = true, report_progress = true, live_mode = true, },
+  ruff = { enabled = true, },
+  jedi = { extra_paths = { "src" } },
+  --- disble
+  autopep8 = { enabled = false },
+  isort = { enabled = false },
+  pycodestyle = { enabled = false },
+  pyflakes = { enabled = false },
   mccabe = { enabled = false },
-  autopep8 = { enabled = true},
-  isort = { enabled = true, },
-  jedi={extra_paths = {"src"}}
+  flake8 = { enabled = false },      -- Add this just in case
+  yapf = { enabled = false },
 }
 for pn, pc in pairs(plugin_config) do
   -- if vim.fn.exepath(pn) then
