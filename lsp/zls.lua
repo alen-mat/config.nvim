@@ -1,5 +1,6 @@
 return {
   manual_install = true,
+  filetypes = { "zig" },
   cmd = { 'zls' },
   root_markers = {
     'build.zig',
