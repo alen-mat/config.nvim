@@ -1,6 +1,10 @@
 return {
   manual_install = true,
   cmd = { 'zls' },
+  root_markers = {
+    'build.zig',
+    'build.zig.zon'
+  },
   settings = {
     codelens = { enable = true },
     inlayHints = { enable = true },
