@@ -3,6 +3,9 @@ require('preload').init()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+require('vim._core.ui2').enable({})
+vim.cmd.packadd ('nvim.undotree')
+
 vim.pack.add({
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/j-hui/fidget.nvim" },
