@@ -1,4 +1,7 @@
 return {
+  filetypes = { "java" },
+  root_markers = { "gradle.properties" },
+  cmd = {'jdtls'},
   settings = {
     -- ['java.format.settings.url'] = vim.fn.getenv("HOME") .. "/.config/nvim/language-servers/java-google-formatter.xml",
     -- ['java.format.settings.profile'] = "GoogleStyle",
