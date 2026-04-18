@@ -114,7 +114,7 @@ if vim.g.neovide then
   vim.g.neovide_progress_bar_enabled = true
   vim.g.neovide_progress_bar_height = 5.0
   vim.g.neovide_progress_bar_animation_speed = 200.0
-vim.g.neovide_progress_bar_hide_delay = 0.2
+  vim.g.neovide_progress_bar_hide_delay = 0.2
 end
 
 -- vim: ts=2 sts=2 sw=2 et
