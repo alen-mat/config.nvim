@@ -88,12 +88,13 @@ else
   })
 end
 
+local font_family = 'JetBrainsMono Nerd Font Mono'
 if vim.g.neovide then
   vim.g.neovide_refresh_rate_idle = 5
   if os.getenv("XDG_SESSION_TYPE") == "wayland" then
-    vim.o.guifont = "JetBrains Mono:h11:i:#e-subpixelantialias:#h-none"
+    vim.o.guifont = font_family..":h13:i:#e-subpixelantialias:#h-none"
   else
-    vim.o.guifont = "JetBrains Mono:h8:i:#e-subpixelantialias:#h-none"
+    vim.o.guifont = font_family..":h8:i:#e-subpixelantialias:#h-none"
   end
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_refresh_rate_idle = 5
@@ -110,6 +111,10 @@ if vim.g.neovide then
   vim.g.neovide_light_angle_degrees = 45
   vim.g.neovide_light_radius = 5
   vim.g.neovide_confirm_quit = true
+  vim.g.neovide_progress_bar_enabled = true
+  vim.g.neovide_progress_bar_height = 5.0
+  vim.g.neovide_progress_bar_animation_speed = 200.0
+vim.g.neovide_progress_bar_hide_delay = 0.2
 end
 
 -- vim: ts=2 sts=2 sw=2 et

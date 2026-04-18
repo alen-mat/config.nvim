@@ -1,7 +1,7 @@
-return {
+local config = {
   filetypes = { "java" },
   root_markers = { "gradle.properties" },
-  cmd = {'jdtls'},
+  cmd = { 'jdtls' },
   settings = {
     -- ['java.format.settings.url'] = vim.fn.getenv("HOME") .. "/.config/nvim/language-servers/java-google-formatter.xml",
     -- ['java.format.settings.profile'] = "GoogleStyle",
@@ -65,6 +65,7 @@ return {
         server_side_fuzzy_completion = true
       },
       configuration = {
+        updateBuildConfiguration = "automatic",
         runtimes = {
           {
             name = "JavaSE-11",
@@ -83,10 +84,40 @@ return {
             path = "/usr/lib/jvm/java-21-openjdk",
             default = true,
           },
+          compile = {
+            nullAnalysis = {
+              mode = "automatic",
+            },
+          },
+          annotation = {
+            processing = {
+              enabled = true,
+            },
+          },
         }
       },
     },
   },
+  init_options = {}
 }
 
+-- load all agents in here ..
+config.init_options.vmArgs = ''
+local grade_cache_dir_base = vim.fn.expand("~/.gradle/caches/modules-2/files-2.1/")
+
+local jvm_agent_jars = {
+  { name = "lombok", sub_path = "org.projectlombok/lombok", version = '1.18.30' }
+}
+for _, jar in ipairs(jvm_agent_jars) do
+  local jars = vim.fs.find(function(name)
+    return name == jar.name..'-'..jar.version..'.jar'
+  end, {
+    path = grade_cache_dir_base..jar.sub_path,
+    type = "file",
+    limit = math.huge,
+  })
+  config.init_options.vmArgs = config.init_options.vmArgs .. '-javaagent:'..jars[1]
+end
+
+return config
 -- vim: ts=2 sts=2 sw=2 et
