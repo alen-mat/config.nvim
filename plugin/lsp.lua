@@ -5,7 +5,7 @@ end
 
 if vim.fn.exepath('mise') then
   require('mise').run()
-  require('lsp-setup')
 end
+require('lsp-setup')
 
 -- vim: ts=2 sts=2 sw=2 et
