@@ -116,7 +116,9 @@ for _, jar in ipairs(jvm_agent_jars) do
     type = "file",
     limit = math.huge,
   })
-  config.init_options.vmArgs = config.init_options.vmArgs .. '-javaagent:'..jars[1]
+  if jars and #jars > 1 then
+    config.init_options.vmArgs = config.init_options.vmArgs .. '-javaagent:'..jars[1]
+  end
 end
 
 return config
