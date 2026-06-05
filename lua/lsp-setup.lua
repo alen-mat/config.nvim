@@ -59,20 +59,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
     nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
 
-    -- This may be unwanted, since they displace some of your code
-    -- [Kick Start] see how theses goes
-    if client then
-      vim.keymap.set('n', '<leader>sR', function()
-        require('telescope.builtin').find_files { cwd = client.config.root_dir }
-      end, { desc = '[S]earch File from lsp [R]oot' })
-
-      if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-        nmap('<leader>lh', function()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-        end, '[T]oggle Inlay [H]ints')
-      end
-    end
-
     vim.api.nvim_buf_create_user_command(event.buf, 'Format', function(_)
       if vim.lsp.buf.format then
         vim.lsp.buf.format()
@@ -82,6 +68,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, { desc = 'Format current buffer with LSP' })
 
     if client then
+      vim.keymap.set('n', '<leader>sR', function()
+        require('telescope.builtin').find_files { cwd = client.config.root_dir }
+      end, { desc = '[S]earch File from lsp [R]oot' })
+
+      if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint.enable(true)
+        nmap('<leader>lh', function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+        end, '[T]oggle Inlay [H]ints')
+      end
       if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
           buffer = event.buf,

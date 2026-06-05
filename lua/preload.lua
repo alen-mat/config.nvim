@@ -27,5 +27,10 @@ end
 M.init = function()
   load_workspace_config()
   register_autocmd()
+  local local_bin = vim.fn.getenv("HOME") .. "/.local/bin"
+  if not string.find(vim.env.PATH, local_bin, 1, true) then
+    vim.env.PATH = local_bin .. ':' .. vim.env.PATH
+  end
 end
 return M
+-- vim: ts=2 sts=2 sw=2 et
