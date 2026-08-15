@@ -37,30 +37,4 @@ for _key, _modes in pairs(keys) do
   end)
 end
 
-vim.keymap.set('n', '<A-h>', function()
-  vim.cmd.wincmd('h')
-end, { desc = 'Move focus to left pane' })
-vim.keymap.set('n', '<A-j>', function()
-  vim.cmd.wincmd('j')
-end, { desc = 'Move focus to bottom pane' })
-vim.keymap.set('n', '<A-k>', function()
-  vim.cmd.wincmd('k')
-end, { desc = 'Move focus to top pane' })
-vim.keymap.set('n', '<A-l>', function()
-  vim.cmd.wincmd('l')
-end, { desc = 'Move focus to right pane' })
-
-vim.keymap.set('n', '<A-C-h>', function()
-  vim.cmd([[vertical resize -1]])
-end, { desc = 'Move focus to left pane' })
-vim.keymap.set('n', '<A-C-j>', function()
-  vim.cmd.resize('+1')
-end, { desc = 'Move focus to bottom pane' })
-vim.keymap.set('n', '<A-C-k>', function()
-  vim.cmd.resize('-1')
-end, { desc = 'Move focus to top pane' })
-vim.keymap.set('n', '<A-C-l>', function()
-  vim.cmd([[vertical resize +1]])
-end, { desc = 'Move focus to right pane' })
-
 -- vim: ts=2 sts=2 sw=2 et

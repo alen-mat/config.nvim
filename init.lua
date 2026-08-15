@@ -18,7 +18,8 @@ vim.pack.add({
 })
 
 
-vim.cmd.colorscheme 'kanagawa-wave'
+vim.cmd.colorscheme 'pallet'
 
 require("fidget").setup( )
+
 -- vim: ts=2 sts=2 sw=2 et

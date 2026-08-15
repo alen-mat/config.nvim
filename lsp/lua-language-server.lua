@@ -4,9 +4,8 @@ return {
   root_markers = { ".luarc.json" },
   settings = {
     Lua = {
-      telemetry = {
-        enable = false,
-      },
+      telemetry = { enable = false, },
+      hint = {enable = true}
     },
   },
 }

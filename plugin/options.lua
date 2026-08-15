@@ -60,7 +60,6 @@ vim.cmd([[aunmenu PopUp.How-to\ disable\ mouse]])
 vim.cmd([[aunmenu PopUp.-2-]])
 vim.cmd([[vmenu <silent> PopUp.Open\ File :lua require('helpers').open_visual_selection()<CR>]])
 
-vim.api.nvim_set_hl(0, 'WinSeparator' , { fg = '#61276b'})
 vim.g.markdown_fenced_languages = {
   "python",
   "bash=sh",

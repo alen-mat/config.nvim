@@ -12,13 +12,19 @@ local DEBOUNCE_MS = 300
 
 local SymbolKind = vim.lsp.protocol.SymbolKind
 local INTELLIJ_ALLOWED_KINDS = {
-  [SymbolKind.File]      = true, [SymbolKind.Module]   = true,
-  [SymbolKind.Namespace] = true, [SymbolKind.Package]  = true,
-  [SymbolKind.Class]     = true, [SymbolKind.Method]   = true,
-  [SymbolKind.Property]  = true, [SymbolKind.Field]    = true,
-  [SymbolKind.Interface] = true, [SymbolKind.Function] = true,
-  [SymbolKind.Struct]    = true, [SymbolKind.Event]    = true,
-  [SymbolKind.Operator]  = true,
+  [SymbolKind.File] = true,
+  [SymbolKind.Module] = true,
+  [SymbolKind.Namespace] = true,
+  [SymbolKind.Package] = true,
+  [SymbolKind.Class] = true,
+  [SymbolKind.Method] = true,
+  [SymbolKind.Property] = true,
+  [SymbolKind.Field] = true,
+  [SymbolKind.Interface] = true,
+  [SymbolKind.Function] = true,
+  [SymbolKind.Struct] = true,
+  [SymbolKind.Event] = true,
+  [SymbolKind.Operator] = true,
 }
 
 -- Helper: Normalize loose LSP specification returns (Arrays vs Single Objects)
@@ -44,16 +50,16 @@ end
 -- Core Action: Draw virtual text cleanly above target coordinates
 local function render_lens(buf, line, name, def_count, ref_count)
   if vim.api.nvim_get_current_buf() ~= buf then return end
-  
+
   local text = string.format("󰌹 [%s] • %d def | %d ref", name, def_count, ref_count)
   local padding = get_line_indent(buf, line)
 
   vim.api.nvim_buf_set_extmark(buf, ns, line, 0, {
-    virt_lines = { 
-      { 
-        { padding, "Normal" }, 
-        { text, "Comment" } 
-      } 
+    virt_lines = {
+      {
+        { padding, "Normal" },
+        { text,    "Comment" }
+      }
     },
     virt_lines_above = true,
     hl_mode = "combine",
@@ -68,8 +74,8 @@ local function extract_definitions(symbols)
     for _, sym in ipairs(items) do
       if INTELLIJ_ALLOWED_KINDS[sym.kind] then
         local r = sym.selectionRange or sym.range or (sym.location and sym.location.range)
-        if r then 
-          table.insert(defs, { l = r.start.line, c = r.start.character, name = sym.name }) 
+        if r then
+          table.insert(defs, { l = r.start.line, c = r.start.character, name = sym.name })
         end
       end
       if sym.children then walk(sym.children) end
@@ -85,7 +91,7 @@ local function process_pipeline(buf, defs)
 
   local function next_batch()
     if idx > #defs or vim.api.nvim_get_current_buf() ~= buf then return end
-    
+
     while active < BATCH_SIZE and idx <= #defs do
       local d = defs[idx]
       idx, active = idx + 1, active + 1
@@ -94,12 +100,12 @@ local function process_pipeline(buf, defs)
         textDocument = vim.lsp.util.make_text_document_params(),
         position = { line = d.l, character = d.c },
       }
-      
+
       local ref_params = vim.deepcopy(req_params)
       ref_params.context = { includeDeclaration = true }
 
       local ref_count, def_count = nil, nil
-      
+
       local function check_done()
         if ref_count and def_count then
           if ref_count > 0 or def_count > 0 then
@@ -123,7 +129,7 @@ local function process_pipeline(buf, defs)
       end)
     end
   end
-  
+
   next_batch()
 end
 
@@ -133,7 +139,7 @@ function M.lens(force)
   if not vim.api.nvim_buf_is_valid(buf) or (not force and state[buf]) then return end
 
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
-  
+
   local params = { textDocument = vim.lsp.util.make_text_document_params() }
   vim.lsp.buf_request(buf, "textDocument/documentSymbol", params, function(err, symbols)
     if err or not symbols or vim.api.nvim_get_current_buf() ~= buf then return end
@@ -168,19 +174,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   callback = function(ev)
     local post_hash = hash_buf(ev.buf)
     if save_hashes[ev.buf] ~= post_hash then
-      debounce(true) -- Force compute: text actually changed
+      debounce(true)          -- Force compute: text actually changed
     end
     save_hashes[ev.buf] = nil -- Clean up transactional memory
   end
 })
 
 vim.api.nvim_create_autocmd("BufEnter", { group = augroup, callback = function() debounce(false) end })
-vim.api.nvim_create_autocmd("BufWipeout", { 
-  group = augroup, 
-  callback = function(ev) 
-    state[ev.buf] = nil 
+vim.api.nvim_create_autocmd("BufWipeout", {
+  group = augroup,
+  callback = function(ev)
+    state[ev.buf] = nil
     save_hashes[ev.buf] = nil
-  end 
+  end
 })
 
 return M

@@ -19,13 +19,18 @@ local plugin_config = {
   mypy = { enabled = true, report_progress = true, live_mode = true, },
   ruff = { enabled = true, },
   jedi = { extra_paths = { "src" } },
+  inlay_hints = {
+    enabled = true,
+    type_hints = true,
+    parameter_hints = true,
+  },
   --- disble
   autopep8 = { enabled = false },
   isort = { enabled = false },
   pycodestyle = { enabled = false },
   pyflakes = { enabled = false },
   mccabe = { enabled = false },
-  flake8 = { enabled = false },      -- Add this just in case
+  flake8 = { enabled = false }, -- Add this just in case
   yapf = { enabled = false },
 }
 for pn, pc in pairs(plugin_config) do
